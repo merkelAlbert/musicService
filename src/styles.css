@@ -1,1 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css");
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body {
+  color: rgba(0, 0, 0, 0.8);
+  font-family: 'Roboto', sans-serif;
+  background: rgba(255, 255, 255, 0.6);
+}
