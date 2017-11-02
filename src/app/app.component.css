@@ -1,56 +1,70 @@
 
 .material {
-  border-radius: 5px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  transition: all 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
   border: 1px solid rgba(0, 0, 0, 0.16);
 }
 
 .material:hover {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25), 0 5px 5px rgba(0, 0, 0, 0.22);
 }
 
 .header {
-  background: black;
-  color: rgba(255, 255, 255, 0.8);
+  background-color: #4A148C;
+  color: white;
 }
 
 .header-menu {
   list-style: none;
   display: flex;
-  justify-content: flex-end;
-  height: 100px;
+  justify-content: space-between;
+  height: 50px;
   margin: 0;
   padding: 0;
 }
 
 .header-menu-item {
-  display: block;
-  line-height: 100px;
+  display: flex;
+  line-height: 50px;
   min-width: 120px;
   text-align: center;
-  margin: 0;
-  padding: 0;
-}
-
-.header-menu-player {
-  flex: 1;
-  padding: 0;
+  margin: 0 20px;
 }
 
 .header-menu-item:hover {
-  background: rgba(255, 255, 255, 0.6);
   cursor: pointer;
-  color: rgba(0, 0, 0, 0.8);
+}
+
+.header-menu-item-icon {
+  width: 30px;
+  height: 30px;
+  background: url("../images/menu.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: auto;
+}
+
+.header-menu-item-icon:hover {
+  border-radius: 50%;
+  background-color: white;
+  transition: 0.5s ease;
+}
+
+.header-menu-item-title {
+  flex: 1;
 }
 
 .main {
   display: flex;
+  height: 100vh;
 }
 
 .main-menu {
-  width: 300px;
-  background: rgba(0, 0, 0, 0.1);
+  position: relative;
+  left: -250px;
+  width: 0px;
+  background: white;
+  transition: 0.3s linear;
+  height: 100%;
+  visibility: hidden;
 }
 
 .main-menu-list {
@@ -66,6 +80,7 @@
   text-align: left;
   line-height: 40px;
   padding: 10px;
+  padding-left: 20px;
 }
 
 .main-menu-list-item:hover {
@@ -80,29 +95,29 @@
 }
 
 .search-input {
-  display: block;
+  width: 300px;
   height: 30px;
   line-height: 30px;
-  color: black;
   padding: 0 10px;
-  flex: 1;
-  background: rgba(255, 255, 255, 0.6);
+  background: white;
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .submit {
-  width: 100px;
+  flex: 1;
   padding: 0 10px;
-  display: block;
   height: 32px;
   line-height: 30px;
-  color: black;
-  background: rgba(255, 255, 255, 0.6);
+  background: white;
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .main-content {
   flex: 1;
+  padding-top: 100px;
 }
 
 .footer {
-  background: rgba(0, 0, 0, 0.6);;
+  display: flex;
+  background: #4A148C;
 }

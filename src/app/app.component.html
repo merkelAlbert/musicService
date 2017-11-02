@@ -1,33 +1,27 @@
 <header class="header">
   <ul class="header-menu material">
-    <!--<li class="header-menu-logo"/>-->
-    <li class="header-menu-item material">eboy</li>
-    <li class="header-menu-item material">mbvjhv</li>
-    <li class="header-menu-item material">jhvjhhgc</li>
-    <li class="header-menu-item material">cfgdffdhgfg</li>
-    <li class="header-menu-item material">iufysfdgycyy</li>
-
+    <li class="header-menu-item" id="menu-button">
+      <div class="header-menu-item-icon"></div>
+      <div class="header-menu-item-title">Music app</div>
+    </li>
+    <li class="header-menu-item">
+      <form action="" class="search-form">
+        <input type="text" class="search-input material" required>
+        <button type="submit" class="submit material">Найти</button>
+      </form>
+    </li>
   </ul>
 </header>
 <main class="main">
-  <aside class="main-menu">
+  <aside class="main-menu material" id="menu">
     <ul class="main-menu-list">
-      <li class="main-menu-list-item material">
-        <form action="" class="search-form">
-          <input type="text" class="search-input material">
-          <input type="button" class="submit material" value="Найти"/>
-        </form>
-      </li>
-      <li class="main-menu-list-item material">Плеер</li>
-      <li class="main-menu-list-item material">Топ 10</li>
-      <li class="main-menu-list-item material">Скачать</li>
-      <li class="main-menu-list-item material">Загрузить</li>
+      <li class="main-menu-list-item material" *ngFor="let menuItem of menuItems">{{menuItem}}</li>
     </ul>
   </aside>
 
-  <section class="main-content">
-    <!--<app-player>Loading...</app-player>-->
+  <section class="main-content" id="content">
+    <app-player class="player">Loading...</app-player>
+    <!--<audio controls></audio>-->
   </section>
-  <footer class="footer"></footer>
 </main>
-<!--<app-hello-angular class="hello">Загрузка...</app-hello-angular>-->
+<footer class="footer"> kejrkjsjkf</footer>
