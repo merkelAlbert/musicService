@@ -1,7 +1,7 @@
 import {Injectable, Output, EventEmitter} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-
+import {ErrorHandler} from '../shared/ErrorHandler';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
@@ -13,7 +13,7 @@ export class NoveltiesHttpService {
 
   getData(): Observable<any> {
     return this.http.get('http://192.168.43.112:8080/getMetadataOfNewSongs').catch((err: any) => {
-      console.log(err);
+      ErrorHandler.handleError(err);
       return err;
     });
   }
