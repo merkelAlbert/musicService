@@ -1,0 +1,77 @@
+
+.novelties-container {
+  margin: auto;
+  width: 80%;
+}
+
+.novelties-item-container {
+  min-height: 100px;
+  padding: 10px;
+  margin: 50px auto;
+  display: flex;
+  word-wrap: break-word;
+}
+
+.novelties-index-and-logo-container {
+  width: 30%;
+  display: flex;
+}
+
+.novelties-item {
+  margin: auto 0;
+}
+
+.logo {
+  width: 70px;
+  height: 70px;
+  background: url("../../assets/images/defaultAlbumLogo.png");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.index {
+  font-size: 40px;
+  font-weight: bold;
+  width: 100px;
+}
+
+.info-container {
+  flex: 1;
+  display: flex;
+}
+
+.info {
+  flex: 1;
+  margin: auto 20px;
+}
+
+.icon {
+  max-width: 30px;
+  max-height: 30px;
+  flex: 1;
+  background-size: 150px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  margin: auto 20px;
+}
+
+.icon:hover {
+  cursor: pointer;
+}
+
+.download {
+  background-image: url("../../assets/images/download.gif");
+}
+
+.add {
+  background-image: url("../../assets/images/add.png");
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.colored {
+  color: #0f78a9;
+}

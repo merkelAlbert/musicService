@@ -1,8 +1,16 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css");
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
-body {
+html, body {
   color: rgba(0, 0, 0, 0.8);
   font-family: 'Roboto', sans-serif;
-  background: rgba(255, 255, 255, 0.6);
+  background: white;
+  margin: 0;
+  padding: 0;
 }
+
+.material {
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25), 0 2px 2px rgba(0, 0, 0, 0.22);
+}
+

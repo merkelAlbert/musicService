@@ -1,0 +1,15 @@
+.upload_file_container {
+  width: 100px;
+  height: 40px;
+  position: relative;
+  background: red;
+}
+
+.upload_file_container input {
+  width: 100px;
+  height: 40px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  cursor: pointer;
+}

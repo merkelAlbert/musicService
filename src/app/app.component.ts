@@ -1,22 +1,28 @@
-import {Component} from '@angular/core';
-
-declare var System: any;
-System.import('./app.component.script.js');
-
-const menuItems = [
-  'Плеер',
-  'Топ песен',
-  'Топ плейлистов',
-  'Новинки'
-
-];
+import {Component, AfterViewChecked} from '@angular/core';
+import {MenuItems} from './shared/MenuItems';
+import {AppService} from './app.service';
 
 @Component({
   selector: 'app-music',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  templateUrl: './app.html',
+  styleUrls: ['./app.styles.css'],
+  providers: [AppService]
 })
 
-export class MusicAppComponent {
-  menuItems: string[] = menuItems;
+export class MusicAppComponent implements AfterViewChecked {
+
+  constructor(private service: AppService) {
+  }
+
+  ngAfterViewChecked() {
+    this.service.togglePlayer();
+  }
+
+  choose() {
+    this.service.togglePlayer();
+  }
+
+  // addToPlayer() {
+  //   alert("dfsdfd");
+  // }
 }

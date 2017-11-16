@@ -1,0 +1,40 @@
+.main-menu {
+  position: relative;
+  left: -250px;
+  width: 0px;
+  background: white;
+  transition: 0.6s ease;
+  visibility: hidden;
+  top: 50px;
+}
+
+.main-menu-fixed{
+  position: fixed;
+  width: 250px;
+  height: 100%;
+}
+
+.main-menu-list {
+  margin: 0;
+  padding: 0;
+  display: block;
+  list-style: none;
+}
+
+.main-menu-list-item {
+  display: flex;
+  height: 40px;
+  text-align: left;
+  line-height: 40px;
+  padding: 10px;
+  padding-left: 20px;
+}
+
+.main-menu-list-item:focus {
+  outline: none;
+}
+
+.main-menu-list-item:hover {
+  cursor: pointer;
+  background: #eee;
+}
