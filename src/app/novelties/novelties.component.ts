@@ -25,7 +25,7 @@ export class NoveltiesComponent implements OnInit {
     this.httpService.getData().subscribe((data: any[]) => {
       for (let i = 0; i < data.length; i++) {
         this.songItems[i] = (new SongItem(data[i]['id'], data[i]['Artist'], data[i]['Title'], data[i]['Genre'],
-          data[i]['Bitrate'], data[i]['Duration'], data[i]['Size'], new Date(data[i]['UploadDate'])));
+          data[i]['Bitrate'], data[i]['Duration'], data[i]['Size'], new Date(Date.parse(data[i]['UploadDate']))));
       }
     });
   }

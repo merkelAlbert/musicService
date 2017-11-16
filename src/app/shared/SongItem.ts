@@ -56,6 +56,6 @@ export class SongItem {
   }
 
   get UploadDate(): string {
-    return this._uploadDate.getDate() + '.' + this._uploadDate.getMonth() + '.' + this._uploadDate.getFullYear();
+    return this._uploadDate.getDate() + '.' + (this._uploadDate.getMonth() + 1) + '.' + this._uploadDate.getFullYear();
   }
 }
