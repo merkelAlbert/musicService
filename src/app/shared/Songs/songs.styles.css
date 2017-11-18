@@ -1,29 +1,29 @@
 
-.novelties-container {
+.songs-container {
   margin: auto;
   max-width: 80%;
 }
 
-.novelties-item-container {
+.songs-item-container {
   min-height: 100px;
   padding: 10px;
   margin: 50px auto;
   display: flex;
 }
 
-.novelties-index-and-logo-container {
+.songs-index-and-logo-container {
   max-width: 30%;
   display: flex;
 }
 
-.novelties-item {
+.songs-item {
   margin: auto 0;
 }
 
 .logo {
   width: 70px;
   height: 70px;
-  background: url("../../assets/images/defaultAlbumLogo.png");
+  background: url("../../../assets/images/defaultAlbumLogo.png");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -60,11 +60,11 @@
 }
 
 .download {
-  background-image: url("../../assets/images/download.gif");
+  background-image: url("../../../assets/images/download.gif");
 }
 
 .add {
-  background-image: url("../../assets/images/add.png");
+  background-image: url("../../../assets/images/add.png");
 }
 
 .bold {

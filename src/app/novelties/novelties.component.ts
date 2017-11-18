@@ -1,21 +1,20 @@
 import {Component, OnInit} from '@angular/core';
 import {SongItem} from '../shared/SongItem';
-import {NoveltiesHttpService} from './novelties.service';
-import {ServerResponses} from '../shared/ServerResponses';
-
+import {SongsHttpService} from '../shared/Songs/songs.service';
+import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
 
 @Component({
   selector: 'app-music-novelties',
-  templateUrl: './novelties.html',
-  styleUrls: ['./novelties.styles.css'],
-  providers: [NoveltiesHttpService]
+  templateUrl: '../shared/Songs/songs.html',
+  styleUrls: ['../shared/Songs/songs.styles.css'],
+  providers: [SongsHttpService]
 })
 
 export class NoveltiesComponent implements OnInit {
   songItems: SongItem[] = [];
-  serverResponses = ServerResponses;
-
-  constructor(private httpService: NoveltiesHttpService) {
+  serverRequestsUrls = ServerRequestsUrls;
+  title = 'Новинки';
+  constructor(private httpService: SongsHttpService) {
   }
 
   // onAdd() {
@@ -23,11 +22,11 @@ export class NoveltiesComponent implements OnInit {
   // }
 
   ngOnInit() {
-    this.httpService.getData().subscribe((data: any[]) => {
+    this.httpService.getData(ServerRequestsUrls.Novelties).subscribe((data: any[]) => {
       for (let i = 0; i < data.length; i++) {
         this.songItems[i] = (new SongItem(data[i]['id'], data[i]['Artist'], data[i]['Title'], data[i]['Genre'],
           data[i]['Bitrate'], data[i]['Duration'], data[i]['Size'],
-          new Date(Date.parse(data[i]['UploadDate'])), data[i]['CountOfDownloads']));
+          new Date(Date.parse(data[i]['UploadDate'])), data[i]['CountOfDownload']));
       }
     });
   }

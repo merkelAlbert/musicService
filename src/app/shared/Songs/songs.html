@@ -1,14 +1,14 @@
-<div class="top-container" id="novelties_container">
-  <h1 class="colored">Топ песен</h1>
-  <div *ngFor="let item of songItems; let i=index;" class="top-item-container material">
-    <div class="top-index-and-logo-container">
-      <div class="top-item index">
+<div class="songs-container" id="novelties_container">
+  <h1 class="colored">{{title}}</h1>
+  <div *ngFor="let item of songItems; let i=index;" class="songs-item-container material">
+    <div class="songs-index-and-logo-container">
+      <div class="songs-item index">
         <p>#{{i+1}}</p>
       </div>
-      <div class="top-item logo material">
+      <div class="songs-item logo material">
       </div>
     </div>
-    <div class="top-item info-container">
+    <div class="songs-item info-container">
       <div class="info">
         <p><span class="bold colored">{{item.Artist}} - {{item.Title}}</span></p>
         <!--<p>Название: <span class="bold colored">{{item.Title}}</span></p>-->
@@ -21,7 +21,7 @@
         <p>Дата загрузки: <span class="bold">{{item.UploadDate}}</span></p>
         <p>Число загрузок: <span class="bold">{{item.CountOfDownloads}}</span></p>
       </div>
-      <a class="icon download material" href="{{serverResponses.Download+item.Id}}" download>
+      <a class="icon download material" href="{{serverRequestsUrls.Download+item.Id}}" download>
       </a>
       <a class="icon add material">
       </a>
