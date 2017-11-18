@@ -1,22 +1,22 @@
 
-.novelties-container {
+.top-container {
   margin: auto;
   max-width: 80%;
 }
 
-.novelties-item-container {
+.top-item-container {
   min-height: 100px;
   padding: 10px;
   margin: 50px auto;
   display: flex;
 }
 
-.novelties-index-and-logo-container {
+.top-index-and-logo-container {
   max-width: 30%;
   display: flex;
 }
 
-.novelties-item {
+.top-item {
   margin: auto 0;
 }
 

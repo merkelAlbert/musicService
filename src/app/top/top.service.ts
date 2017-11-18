@@ -7,13 +7,13 @@ import 'rxjs/add/operator/catch';
 import {ServerResponses} from '../shared/ServerResponses';
 
 @Injectable()
-export class NoveltiesHttpService {
+export class TopHttpService {
 
   constructor(private http: HttpClient) {
   }
 
   getData(): Observable<any> {
-    return this.http.get(ServerResponses.Novelties).catch((err: any) => {
+    return this.http.get(ServerResponses.Top).catch((err: any) => {
       ErrorHandler.handleError(err.message);
       return err;
     });

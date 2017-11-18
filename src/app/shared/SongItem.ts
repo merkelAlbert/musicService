@@ -7,8 +7,9 @@ export class SongItem {
   private _duration: number;
   private _size: number;
   private _uploadDate: any;
+  private _countOfDownloads: number;
 
-  public constructor(id, artist, title, genre, bitrate, duration, size, uploadDate) {
+  public constructor(id, artist, title, genre, bitrate, duration, size, uploadDate, countOfDownloads) {
     this._id = id;
     this._artist = artist;
     this._title = title;
@@ -17,6 +18,7 @@ export class SongItem {
     this._duration = duration;
     this._size = size;
     this._uploadDate = uploadDate;
+    this._countOfDownloads = countOfDownloads;
   }
 
   get Id(): string {
@@ -24,14 +26,23 @@ export class SongItem {
   }
 
   get Artist(): string {
+    if (this._artist === '') {
+      return 'Неизвестно';
+    }
     return this._artist;
   }
 
   get Title(): string {
+    if (this._title === '') {
+      return 'Неизвестно';
+    }
     return this._title;
   }
 
   get Genre(): string {
+    if (this._genre === '') {
+      return 'Неизвестно';
+    }
     return this._genre;
   }
 
@@ -57,5 +68,9 @@ export class SongItem {
 
   get UploadDate(): string {
     return this._uploadDate.getDate() + '.' + (this._uploadDate.getMonth() + 1) + '.' + this._uploadDate.getFullYear();
+  }
+
+  get CountOfDownloads(): number {
+    return this._countOfDownloads;
   }
 }

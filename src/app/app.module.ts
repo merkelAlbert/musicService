@@ -9,10 +9,11 @@ import {AppRoutingModule} from './app.routing-module';
 import {UploaderComponent} from './uploader/uploader.component';
 import {NoveltiesComponent} from './novelties/novelties.component';
 import {HttpClientModule} from '@angular/common/http';
+import {TopComponent} from './top/top.component';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, RouterModule, AppRoutingModule, HttpClientModule],
-  declarations: [MusicAppComponent, PlayerComponent, MenuComponent, UploaderComponent, NoveltiesComponent],
+  declarations: [MusicAppComponent, PlayerComponent, MenuComponent, UploaderComponent, NoveltiesComponent, TopComponent],
   bootstrap: [MusicAppComponent]
 })
 export class AppModule {

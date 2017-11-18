@@ -1,14 +1,14 @@
-<div class="novelties-container" id="novelties_container">
-  <h1 class="colored">Новинки</h1>
-  <div *ngFor="let item of songItems; let i=index;" class="novelties-item-container material">
-    <div class="novelties-index-and-logo-container">
-      <div class="novelties-item index">
+<div class="top-container" id="novelties_container">
+  <h1 class="colored">Топ песен</h1>
+  <div *ngFor="let item of songItems; let i=index;" class="top-item-container material">
+    <div class="top-index-and-logo-container">
+      <div class="top-item index">
         <p>#{{i+1}}</p>
       </div>
-      <div class="novelties-item logo material">
+      <div class="top-item logo material">
       </div>
     </div>
-    <div class="novelties-item info-container">
+    <div class="top-item info-container">
       <div class="info">
         <p><span class="bold colored">{{item.Artist}} - {{item.Title}}</span></p>
         <!--<p>Название: <span class="bold colored">{{item.Title}}</span></p>-->
