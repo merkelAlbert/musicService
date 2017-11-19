@@ -10,11 +10,13 @@ import {UploaderComponent} from './uploader/uploader.component';
 import {NoveltiesComponent} from './novelties/novelties.component';
 import {HttpClientModule} from '@angular/common/http';
 import {TopComponent} from './top/top.component';
+import {SongsEventsService} from './shared/Songs/songs.service';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, RouterModule, AppRoutingModule, HttpClientModule],
   declarations: [MusicAppComponent, PlayerComponent, MenuComponent, UploaderComponent, NoveltiesComponent, TopComponent],
-  bootstrap: [MusicAppComponent]
+  bootstrap: [MusicAppComponent],
+  providers: [SongsEventsService]
 })
 export class AppModule {
 }

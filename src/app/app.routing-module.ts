@@ -2,7 +2,6 @@ import {Routes, RouterModule} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {UploaderComponent} from './uploader/uploader.component';
 import {MenuItems} from './shared/MenuItems';
-import {CommonModule} from '@angular/common';
 import {NoveltiesComponent} from './novelties/novelties.component';
 import {TopComponent} from './top/top.component';
 
@@ -13,7 +12,7 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forRoot(appRoutes, {useHash: true})],
+  imports: [RouterModule.forRoot(appRoutes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

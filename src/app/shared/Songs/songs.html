@@ -21,9 +21,9 @@
         <p>Дата загрузки: <span class="bold">{{item.UploadDate}}</span></p>
         <p>Число загрузок: <span class="bold">{{item.CountOfDownloads}}</span></p>
       </div>
-      <a class="icon download material" href="{{serverRequestsUrls.Download+item.Id}}" download>
+      <a class="icon download material" href="{{serverRequestsUrls.Download+item.Id}}">
       </a>
-      <a class="icon add material">
+      <a class="icon add material" (click)="onAdd(item)">
       </a>
     </div>
   </div>

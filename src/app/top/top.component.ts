@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SongItem} from '../shared/SongItem';
-import {SongsHttpService} from '../shared/Songs/songs.service';
+import {SongsHttpService, SongsEventsService} from '../shared/Songs/songs.service';
 import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
 
 @Component({
@@ -14,12 +14,13 @@ export class TopComponent implements OnInit {
   songItems: SongItem[] = [];
   serverRequestsUrls = ServerRequestsUrls;
   title = 'Топ песен';
-  constructor(private httpService: SongsHttpService) {
+
+  constructor(private httpService: SongsHttpService, private eventsService: SongsEventsService) {
   }
 
-  // onAdd() {
-  //   this.eventsService.onAdd();
-  // }
+  onAdd(song: SongItem) {
+    this.eventsService.add(song);
+  }
 
   ngOnInit() {
     this.httpService.getData(ServerRequestsUrls.Top).subscribe((data: any[]) => {

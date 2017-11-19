@@ -48,7 +48,7 @@ function queueAudio () {
   audioPreload.id = 'playbar'
 }
 
-function newSong () {
+export function newSong () {
   if (preloaded) {
     var parentEl = audio.parentNode
     var newTrack = tracks.indexOf(audioPreload.src)
@@ -77,7 +77,7 @@ function audioUpdate () {
 
   passed.innerHTML = toMinutes(currentTime)
   overall.innerHTML = toMinutes(duration)
-  progress = (audio.currentTime + 1) / duration
+  var progress = (audio.currentTime + 1) / duration
   if (timeLeft <= 10 && !preloaded) {
     preloaded = true
     queueAudio()
@@ -87,11 +87,7 @@ function audioUpdate () {
   })
 }
 
-// ------- ON LOAD ---------
-window.addEventListener('load', function () {
-  audio = document.getElementById('playbar')
-  audio.addEventListener('timeupdate', audioUpdate, false)
-  audio.addEventListener('ended', newSong, false)
+export function pushToTracks() {
   var trackElements = document.getElementsByClassName('track')
   var i
   for (i = 0; i < trackElements.length; i++) {
@@ -100,11 +96,28 @@ window.addEventListener('load', function () {
     }, false)
     tracks.push(trackElements[i].href)
   }
-  //audio.src = tracks[0]
-  // $(audio).on('canplay', function() {
-  //   play();
-  // });
-})
+}
+
+export function initTracks() {
+  var trackElements = document.getElementsByClassName('track')
+  var i
+  for (i = 0; i < trackElements.length; i++) {
+    trackElements[i].addEventListener('click', function (e) {
+      playTrack(e)
+    }, false)
+    tracks.push(trackElements[i].href)
+  }
+  audio = document.getElementById('playbar')
+  audio.addEventListener('timeupdate', audioUpdate, false)
+  audio.addEventListener('ended', newSong, false)
+}
+// ------- ON LOAD ---------
+window.addEventListener('load', initTracks);
+
+//audio.src = tracks[0]
+// $(audio).on('canplay', function() {
+//   play();
+// })
 
 var pause = function () {
   audio.pause()

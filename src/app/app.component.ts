@@ -1,5 +1,4 @@
-import {Component, AfterViewChecked} from '@angular/core';
-import {MenuItems} from './shared/MenuItems';
+import {Component, AfterViewChecked, OnInit} from '@angular/core';
 import {AppService} from './app.service';
 
 @Component({
@@ -22,7 +21,4 @@ export class MusicAppComponent implements AfterViewChecked {
     this.service.togglePlayer();
   }
 
-  // addToPlayer() {
-  //   alert("dfsdfd");
-  // }
 }
