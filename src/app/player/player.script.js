@@ -38,7 +38,7 @@ function playTrack (e) {
   preloaded = false
 }
 
-function queueAudio () {
+export function queueAudio () {
   audioPreload = document.createElement('audio')
   audioPreload.controls = false
   var track = tracks.indexOf(audio.src) + 1
@@ -48,7 +48,7 @@ function queueAudio () {
   audioPreload.id = 'playbar'
 }
 
-export function newSong () {
+function newSong () {
   if (preloaded) {
     var parentEl = audio.parentNode
     var newTrack = tracks.indexOf(audioPreload.src)
@@ -87,18 +87,8 @@ function audioUpdate () {
   })
 }
 
-export function pushToTracks() {
-  var trackElements = document.getElementsByClassName('track')
-  var i
-  for (i = 0; i < trackElements.length; i++) {
-    trackElements[i].addEventListener('click', function (e) {
-      playTrack(e)
-    }, false)
-    tracks.push(trackElements[i].href)
-  }
-}
-
 export function initTracks() {
+  tracks = []
   var trackElements = document.getElementsByClassName('track')
   var i
   for (i = 0; i < trackElements.length; i++) {

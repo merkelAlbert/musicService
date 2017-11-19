@@ -33,9 +33,6 @@ export class PlayerComponent implements AfterViewInit {
 
     this.subscription = this.eventsService.songStream.subscribe(data => {
       this.songsList.push(data);
-      System.import('./player.script.js').then(script => {
-        script.pushToTracks();
-      });
     });
   }
 
