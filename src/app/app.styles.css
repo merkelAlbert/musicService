@@ -69,6 +69,7 @@
   color: rgba(0, 0, 0, 0.5);
   font-size: 16px;
   margin-right: 10px;
+  outline: none;
 }
 
 .submit {
@@ -79,6 +80,7 @@
   background: white;
   color: rgba(0, 0, 0, 0.5);
   font-size: 16px;
+  outline: none;
 }
 
 .main-content {

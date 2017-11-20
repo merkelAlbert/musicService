@@ -40,7 +40,7 @@ export class PlayerComponent implements OnInit {
   }
 
   onDelete(song: SongItem) {
-    const index = SongsArrayUtil.indexOf(Songs.list, song.Id);
-    Songs.list = Songs.list.splice(index, 1);
+    SongsArrayUtil.delete(Songs.list, song);
+    console.log(Songs.list);
   }
 }

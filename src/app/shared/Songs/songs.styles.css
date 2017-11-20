@@ -61,3 +61,15 @@
 .colored {
   color: #0f78a9;
 }
+
+.songs-button {
+  height: 50px;
+  background-color: inherit;
+  margin-right: 20px;
+  padding: 15px;
+  outline: none;
+}
+
+.songs-button:hover {
+  cursor: pointer;
+}

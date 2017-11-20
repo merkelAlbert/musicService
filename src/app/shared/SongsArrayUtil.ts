@@ -9,4 +9,16 @@ export class SongsArrayUtil {
     }
     return -1;
   }
+
+  public static  delete(array: SongItem[], song: SongItem) {
+    const index = SongsArrayUtil.indexOf(array, song.Id);
+    const tempSplice = array.splice(index, 1);
+    const tempArr = [];
+    for (let i = 0; i < array.length; i++) {
+      if (array[i].Id !== tempSplice[0].Id) {
+        tempArr.push(array[i]);
+      }
+    }
+    array = tempArr;
+  }
 }

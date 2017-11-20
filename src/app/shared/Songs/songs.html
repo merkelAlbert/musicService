@@ -1,6 +1,8 @@
 <div class="songs-container" id="songs-container">
   <div *ngIf="isLoaded(); else loading">
     <h1 class="colored">{{title}}</h1>
+    <button class="material songs-button" id="selectAll" (click)="selectAll()">Выбрать все</button>
+    <button class="material songs-button" id="cancelAll" (click)="cancelAll()">Удалить все</button>
     <div *ngFor="let item of songItems; let i=index;" class="songs-item-container material">
       <div class="songs-index-and-logo-container">
         <div class="songs-item index">
@@ -24,7 +26,7 @@
         </div>
         <a class="icon download material" href="{{serverRequestsUrls.Download+item.Id}}" download>
         </a>
-        <a class="icon add material" (click)="onAdd(item, $event)">
+        <a #element class="icon add material" (click)="onAdd(item, element)">
         </a>
       </div>
     </div>

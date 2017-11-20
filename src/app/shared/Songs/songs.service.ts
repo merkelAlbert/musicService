@@ -31,7 +31,6 @@ export class SongsEventsService {
   add(song: SongItem) {
     this.song.next(song);
   }
-
 }
 
 @Injectable()
@@ -43,6 +42,8 @@ export class SongsViewService {
       for (let i = 0; i < allSongs.length; i++) {
         if (SongsArrayUtil.indexOf(Songs.list, allSongs[i].Id) !== -1) {
           this.add(allSongsButtons[i] as HTMLElement);
+        } else {
+          this.cancel(allSongsButtons[i] as HTMLElement);
         }
       }
     }
@@ -53,6 +54,13 @@ export class SongsViewService {
     button.style.backgroundImage = 'url(../../../assets/images/added.png)';
     button.style.backgroundSize = 'cover';
     button.style.cursor = 'auto';
-    button.style.disabled = 'true';
+    button.style.disabled = 'disabled';
+  }
+
+  cancel(button: any) {
+    button.style.backgroundImage = 'url(../../../assets/images/add.png)';
+    button.style.cursor = 'pointer';
+    button.style.disabled = '';
   }
 }
+

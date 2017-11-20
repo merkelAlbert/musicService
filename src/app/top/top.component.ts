@@ -20,15 +20,23 @@ export class TopComponent implements OnInit {
               private viewService: SongsViewService) {
   }
 
-  onAdd(song: SongItem, event: any) {
-    if (!event.target.style.disabled) {
+  onAdd(song: SongItem, element: any) {
+    if (!element.style.disabled) {
       this.eventsService.add(song);
-      this.viewService.add(event.target);
+      this.viewService.add(element);
     }
   }
 
+
   check() {
     this.viewService.checkAdded(this.songItems);
+  }
+
+  selectAll() {
+    const buttons = document.getElementsByClassName('add');
+    for (let i = 0; i < this.songItems.length; i++) {
+      this.onAdd(this.songItems[i], (buttons[i] as HTMLElement));
+    }
   }
 
   ngOnInit() {
