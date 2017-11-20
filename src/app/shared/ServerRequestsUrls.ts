@@ -3,5 +3,6 @@ export class ServerRequestsUrls {
   public static Download =  ServerRequestsUrls.Url + 'getSong?id=';
   public static Novelties = ServerRequestsUrls.Url + 'getMetadataOfNewSongs';
   public static Top = ServerRequestsUrls.Url + 'getMetadataOfPopularSongs';
+  public static Add = ServerRequestsUrls.Url + 'addSong';
 }
 

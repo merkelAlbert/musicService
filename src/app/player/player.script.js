@@ -42,8 +42,11 @@ export function queueAudio () {
   audioPreload = document.createElement('audio')
   audioPreload.controls = false
   var track = tracks.indexOf(audio.src) + 1
-  if (tracks.length >= track) {
+  if (tracks.length > track) {
     audioPreload.src = tracks[track]
+  }
+  else {
+    audioPreload.src = tracks[0]
   }
   audioPreload.id = 'playbar'
 }
@@ -87,7 +90,7 @@ function audioUpdate () {
   })
 }
 
-export function initTracks() {
+export function initTracks () {
   tracks = []
   var trackElements = document.getElementsByClassName('track')
   var i
@@ -101,8 +104,9 @@ export function initTracks() {
   audio.addEventListener('timeupdate', audioUpdate, false)
   audio.addEventListener('ended', newSong, false)
 }
+
 // ------- ON LOAD ---------
-window.addEventListener('load', initTracks);
+window.addEventListener('load', initTracks)
 
 //audio.src = tracks[0]
 // $(audio).on('canplay', function() {
@@ -137,18 +141,21 @@ $('#next').click(function () {
   var track = tracks.indexOf(audio.src)
   if (track == -1) {
     // WAT
-  } else if (track >= tracks.length) {
-    audio.src = ''
+  } else if (tracks.length - track === 1) {
+    pause()
+    $('#playpause').addClass('loading')
+    audio.src = tracks[0]
+    track = -1
   } else {
     pause()
     $('#playpause').addClass('loading')
     audio.src = tracks[track + 1]
-    $('#playlist li').removeClass('playing')
-    $($('#playlist').children()[track + 1]).addClass('playing')
-    $(audio).on('canplay', function () {
-      play()
-    })
   }
+  $('#playlist li').removeClass('playing')
+  $($('#playlist').children()[track + 1]).addClass('playing')
+  $(audio).on('canplay', function () {
+    play()
+  })
 })
 $('#back').click(function () {
   var track = tracks.indexOf(audio.src)

@@ -25,17 +25,17 @@
   }
 }
 
-body {
-  background-color: rgba(34, 34, 34, 0.1);
-  font-family: "inherit";
-  font-weight: 300;
-  line-height: 1.5em;
-}
+/*body {*/
+  /*background-color: rgba(34, 34, 34, 0.1);*/
+  /*font-family: "inherit";*/
+  /*font-weight: 300;*/
+  /*line-height: 1.5em;*/
+/*}*/
 
 /*#playbar {*/
-  /*display: block;*/
-  /*height: 100px;*/
-  /*width: 100px;*/
+/*display: block;*/
+/*height: 100px;*/
+/*width: 100px;*/
 /*}*/
 
 #slider:hover {
@@ -232,7 +232,14 @@ a {
   font-size: 12px;
   font-weight: bold;
   opacity: 0.3;
-  float: right;
+  max-width: 30px;
+  margin: auto 15px;
+}
+
+.delete {
+  background-image: url('../../assets/images/delete.png');
+  background-size: 60px;
+  margin: auto 0;
 }
 
 ol#playlist {
@@ -254,19 +261,21 @@ ol#playlist {
   border-radius: 0 5px 5px 0;
 }
 
-ol#playlist a {
-  display: inline-block;
-  width: 300px;
+.track {
+  flex: 1;
+  max-width: 300px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin: auto 0;
+
 }
 
 ol#playlist > li {
-  counter-increment: customlistcounter;
-  padding: 12px 15px;
-  height: 50px;
+  padding: 0 15px;
+  height: 60px;
   position: relative;
+  display: flex;
 }
 
 ol#playlist > li:after {
@@ -300,7 +309,6 @@ ol#playlist > li.playing:hover {
 }
 
 ol#playlist > li:before {
-  content: counter(customlistcounter) " ";
   float: left;
   text-align: right;
   width: 1em;

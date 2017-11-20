@@ -2,8 +2,7 @@
   <div id="main">
     <div>
       <div class="playback_controls">
-        <h2 id="title">Title</h2>
-        <h3 id="artist">Perigee</h3>
+        <h2 id="title"></h2>
         <div class="time-holder">
           <div class="slider" id="slider">
             <div class="fill"></div>
@@ -23,10 +22,12 @@
       <audio id="playbar"></audio>
     </div>
   </div>
-  <ol id="playlist">
-    <li *ngFor="let song of songsList;"><a class="track" href="{{serverRequestsUrls.Download}}{{song.Id}}">{{song.Artist}} -
+  <ol id="playlist" class="material">
+    <li *ngFor="let song of songs; let i=index;"><a class="track" href="{{serverRequestsUrls.Download}}{{song.Id}}">{{i+1}}. {{song.Artist}} -
       {{song.Title}}</a>
-      <span class="time">{{song.Duration}}</span></li>
+      <div class="time">{{song.Duration}}</div>
+      <div class="icon delete material" (click)="onDelete(song)"></div>
+    </li>
     <!--<li><a class="track"-->
     <!--href="http://ms00.userfiles.me/m/082226137032185123227209107065170147230096224104252086/1510583456/68506411/0/04cf926dd5632a07718a534e5084a942/Julianna%5FKaraulova%2DDozhd%5Fplachet%2Dspaces.ru.mp3">Charade-->
     <!--(Exploring The Surface) feat. Julie Thurman</a> <span class="time">3:04</span></li>-->

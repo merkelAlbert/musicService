@@ -1,4 +1,4 @@
-<header class="header">
+<header class="header" id="header">
   <ul class="header-menu material">
     <li class="header-menu-item" id="menu-button">
       <div class="header-menu-item-icon"></div>
@@ -14,9 +14,12 @@
   </ul>
 </header>
 <main class="main">
-  <app-menu (choose)="choose()" >Loading...</app-menu>
+  <app-menu (choose)="choose()">
+  </app-menu>
   <section class="main-content" id="content">
-    <app-player id="app-player">Loading</app-player>
-    <router-outlet></router-outlet>
+    <app-player id="app-player">
+    </app-player>
+    <router-outlet>
+    </router-outlet>
   </section>
 </main>

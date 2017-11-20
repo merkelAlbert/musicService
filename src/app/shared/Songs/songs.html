@@ -1,31 +1,35 @@
-<div class="songs-container" id="novelties_container">
-  <h1 class="colored">{{title}}</h1>
-  <div *ngFor="let item of songItems; let i=index;" class="songs-item-container material">
-    <div class="songs-index-and-logo-container">
-      <div class="songs-item index">
-        <p>#{{i+1}}</p>
+<div class="songs-container" id="songs-container">
+  <div *ngIf="isLoaded(); else loading">
+    <h1 class="colored">{{title}}</h1>
+    <div *ngFor="let item of songItems; let i=index;" class="songs-item-container material">
+      <div class="songs-index-and-logo-container">
+        <div class="songs-item index">
+          <p>#{{i+1}}</p>
+        </div>
+        <div class="songs-item logo material">
+        </div>
       </div>
-      <div class="songs-item logo material">
+      <div class="songs-item info-container">
+        <div class="info">
+          <p><span class="bold colored">{{item.Artist}} - {{item.Title}}</span></p>
+          <!--<p>Название: <span class="bold colored">{{item.Title}}</span></p>-->
+          <p>Жанр: <span class="bold">{{item.Genre}}</span></p>
+        </div>
+        <div class="info">
+          <p>Битрейт: <span class="bold">{{item.Bitrate}}</span></p>
+          <p>Длительность: <span class="bold">{{item.Duration}}</span></p>
+          <p>Размер: <span class="bold">{{item.Size}}</span></p>
+          <p>Дата загрузки: <span class="bold">{{item.UploadDate}}</span></p>
+          <p>Число загрузок: <span class="bold">{{item.CountOfDownloads}}</span></p>
+        </div>
+        <a class="icon download material" href="{{serverRequestsUrls.Download+item.Id}}" download>
+        </a>
+        <a class="icon add material" (click)="onAdd(item, $event)">
+        </a>
       </div>
-    </div>
-    <div class="songs-item info-container">
-      <div class="info">
-        <p><span class="bold colored">{{item.Artist}} - {{item.Title}}</span></p>
-        <!--<p>Название: <span class="bold colored">{{item.Title}}</span></p>-->
-        <p>Жанр: <span class="bold">{{item.Genre}}</span></p>
-      </div>
-      <div class="info">
-        <p>Битрейт: <span class="bold">{{item.Bitrate}}</span></p>
-        <p>Длительность: <span class="bold">{{item.Duration}}</span></p>
-        <p>Размер: <span class="bold">{{item.Size}}</span></p>
-        <p>Дата загрузки: <span class="bold">{{item.UploadDate}}</span></p>
-        <p>Число загрузок: <span class="bold">{{item.CountOfDownloads}}</span></p>
-      </div>
-      <a class="icon download material" href="{{serverRequestsUrls.Download+item.Id}}">
-      </a>
-      <a class="icon add material" (click)="onAdd(item)">
-      </a>
     </div>
   </div>
+  <ng-template align="center" #loading>
+    <img src="./assets/images/loading.gif" alt="Loading">
+  </ng-template>
 </div>
-

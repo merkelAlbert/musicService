@@ -46,19 +46,6 @@
   word-break: break-all
 }
 
-.icon {
-  width: 30px;
-  height: 30px;
-  background-size: 150px;
-  background-position: center center;
-  background-repeat: no-repeat;
-  margin: auto 10px;
-}
-
-.icon:hover {
-  cursor: pointer;
-}
-
 .download {
   background-image: url("../../../assets/images/download.gif");
 }

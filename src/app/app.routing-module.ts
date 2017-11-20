@@ -4,6 +4,7 @@ import {UploaderComponent} from './uploader/uploader.component';
 import {MenuItems} from './shared/MenuItems';
 import {NoveltiesComponent} from './novelties/novelties.component';
 import {TopComponent} from './top/top.component';
+import {CommonModule} from '@angular/common';
 
 const appRoutes: Routes = [
   {path: MenuItems.upload.url, component: UploaderComponent},
@@ -12,7 +13,7 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes)],
+  imports: [CommonModule, RouterModule.forRoot(appRoutes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

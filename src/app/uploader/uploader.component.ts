@@ -9,14 +9,22 @@ import {UploaderHttpService} from './uploader.service';
 })
 export class UploaderComponent {
 
+  isLoaded = true;
+
   constructor(private httpService: UploaderHttpService) {
   }
 
   @ViewChild('file')
   file: ElementRef;
 
-  onSend() {
+  onSend(): any {
+    this.isLoaded = false;
     const song = this.file.nativeElement.files[0];
     this.httpService.sendData(song);
+    this.isLoaded = true;
+  }
+
+  isCompleted(): boolean {
+    return this.isLoaded;
   }
 }

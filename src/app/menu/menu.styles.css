@@ -1,17 +1,17 @@
 .main-menu {
   position: relative;
-  left: -250px;
+  top: -100%;
   width: 0px;
   background: white;
   transition: 0.6s ease;
   visibility: hidden;
-  top: 50px;
 }
 
 .main-menu-fixed{
   position: fixed;
   width: 250px;
   height: 100%;
+  border-radius: 0;
 }
 
 .main-menu-list {
