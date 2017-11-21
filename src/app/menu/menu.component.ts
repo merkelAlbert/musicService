@@ -1,9 +1,6 @@
 import {Component, Output, EventEmitter} from '@angular/core';
 import {MenuItems} from '../shared/MenuItems';
 
-declare var System: any;
-System.import('./menu.script.js');
-
 
 @Component({
   selector: 'app-menu',
@@ -24,4 +21,5 @@ export class MenuComponent {
   onChoose() {
     this.choose.emit();
   }
+
 }

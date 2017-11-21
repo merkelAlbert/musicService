@@ -50,7 +50,7 @@ export class SongItem {
     return this._bitrate + ' ' + 'kbps';
   }
 
-  get Duration(): string {
+  get FormattedDuration(): string {
     if (isNaN(this._duration)) {
       return '0:00';
     }
@@ -72,5 +72,9 @@ export class SongItem {
 
   get CountOfDownloads(): number {
     return this._countOfDownloads;
+  }
+
+  get Duration(): number {
+    return this._duration;
   }
 }

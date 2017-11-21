@@ -27,8 +27,9 @@ export class PlayerComponent implements OnInit {
     const elRef = document.getElementById('playlist');
     this.observer = new MutationObserver(mutations => {
       mutations.forEach(function (mutation) {
-        System.import('./player.script.js').then(script => {
+        System.import('../shared/player.script.js').then(script => {
           script.initTracks();
+          console.log(Songs.list);
         });
       });
     });
@@ -41,6 +42,5 @@ export class PlayerComponent implements OnInit {
 
   onDelete(song: SongItem) {
     SongsArrayUtil.delete(Songs.list, song);
-    console.log(Songs.list);
   }
 }

@@ -1,96 +1,11 @@
-.header {
-  color: white;
-  position: fixed;
-  top: 0;
-  z-index: 1000;
-  margin: auto;
-  width: 1200px;
-}
-
-.header-menu {
-  background-color: #4A148C;
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  height: 50px;
-  margin: auto;
-  padding: 0;
-}
-
-.header-menu-item {
-  display: flex;
-  line-height: 50px;
-  min-width: 120px;
-  text-align: center;
-  margin: 0 20px;
-}
-
-.header-menu-item:hover {
-  cursor: pointer;
-}
-
-.header-menu-item-icon {
-  width: 30px;
-  height: 30px;
-  background: url("../assets/images/menu.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  margin: auto;
-}
-
-.header-menu-item-icon:hover {
-  border-radius: 50%;
-  background-color: white;
-  transition: 0.5s ease;
-}
-
-.header-menu-item-title {
-  flex: 1;
-}
 
 .main {
   display: flex;
   height: 100vh;
 }
-
-.search-form {
-  display: flex;
-  padding: 0;
-  margin: auto;
-  width: 100%;
-}
-
-.search-input {
-  width: 300px;
-  height: 30px;
-  line-height: 30px;
-  padding: 0 10px;
-  background: white;
-  color: rgba(0, 0, 0, 0.5);
-  font-size: 16px;
-  margin-right: 10px;
-  outline: none;
-}
-
-.submit {
-  flex: 1;
-  padding: 0 10px;
-  height: 32px;
-  line-height: 30px;
-  background: white;
-  color: rgba(0, 0, 0, 0.5);
-  font-size: 16px;
-  outline: none;
-}
-
 .main-content {
   flex: 1;
   padding: 70px;
   padding-top: 100px;
   justify-content: center;
-}
-
-.footer {
-  display: flex;
-  background: #4A148C;
 }

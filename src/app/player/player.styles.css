@@ -238,8 +238,14 @@ a {
 
 .delete {
   background-image: url('../../assets/images/delete.png');
-  background-size: 60px;
+  background-size: 20px;
   margin: auto 0;
+  width: 20px;
+  height: 20px;
+  opacity: 0.83;
+}
+.delete:hover {
+  opacity: 1;
 }
 
 ol#playlist {

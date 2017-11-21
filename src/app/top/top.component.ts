@@ -59,10 +59,10 @@ export class TopComponent implements OnInit {
   }
 
   isLoaded(): boolean {
-    if (this.songItems.length) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.eventsService.isLoaded(this.songItems);
+  }
+
+  playPauseSong(song: SongItem, button: any) {
+    this.eventsService.playPauseSong(song, button);
   }
 }

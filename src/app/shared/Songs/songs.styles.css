@@ -1,49 +1,49 @@
 
 .songs-container {
   margin: auto;
-  max-width: 80%;
+  max-width: 85%;
 }
 
 .songs-item-container {
-  min-height: 100px;
-  padding: 10px;
-  margin: 50px auto;
+  margin: 10px auto;
   display: flex;
+  max-height: 40px;
+  padding: 5px;
 }
 
-.songs-index-and-logo-container {
-  max-width: 30%;
+.songs-play-container {
   display: flex;
+  margin: auto 10px;
 }
 
 .songs-item {
   margin: auto 0;
 }
 
-.logo {
-  width: 70px;
-  height: 70px;
-  background: url("../../../assets/images/defaultAlbumLogo.png");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-
-.index {
-  font-size: 40px;
-  font-weight: bold;
-  width: 100px;
+.play {
+  background-image: url("../../../assets/images/play.png");
+  background-size: 35px;
 }
 
 .info-container {
   flex: 1;
   display: flex;
+  margin: auto 5px;
 }
 
 .info {
   flex: 1;
-  margin: auto 10px;
-  word-break: break-all
+  margin: auto 0px;
+  font-size: 14px;
+
+}
+
+.info p {
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 90%;
 }
 
 .download {
@@ -54,12 +54,13 @@
   background-image: url("../../../assets/images/add.png");
 }
 
-.bold {
+.title {
   font-weight: bold;
+  color: #0f78a9;
 }
 
-.colored {
-  color: #0f78a9;
+.artist {
+  opacity: 0.5;
 }
 
 .songs-button {
@@ -68,8 +69,13 @@
   margin-right: 20px;
   padding: 15px;
   outline: none;
+  font-family: inherit;
 }
 
 .songs-button:hover {
   cursor: pointer;
+}
+
+#preListen {
+  display: none;
 }

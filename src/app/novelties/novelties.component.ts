@@ -34,6 +34,7 @@ export class NoveltiesComponent implements OnInit {
   }
 
   selectAll() {
+    document.getElementById('selectAll').style.display = 'none';
     const buttons = document.getElementsByClassName('add');
     for (let i = 0; i < this.songItems.length; i++) {
       this.onAdd(this.songItems[i], (buttons[i] as HTMLElement));
@@ -60,10 +61,10 @@ export class NoveltiesComponent implements OnInit {
   }
 
   isLoaded(): boolean {
-    if (this.songItems.length) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.eventsService.isLoaded(this.songItems);
+  }
+
+  playPauseSong(song: SongItem, button: any) {
+    this.eventsService.playPauseSong(song, button);
   }
 }

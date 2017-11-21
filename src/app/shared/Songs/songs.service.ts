@@ -8,6 +8,7 @@ import 'rxjs/add/operator/catch';
 import {SongItem} from '../SongItem';
 import {Songs} from '../Songs';
 import {SongsArrayUtil} from '../SongsArrayUtil';
+import {ServerRequestsUrls} from '../ServerRequestsUrls';
 
 @Injectable()
 export class SongsHttpService {
@@ -30,6 +31,34 @@ export class SongsEventsService {
 
   add(song: SongItem) {
     this.song.next(song);
+  }
+
+  isLoaded(songs: SongItem[]) {
+    if (songs.length) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  playPauseSong(song: SongItem, button: any) {
+    const buttons = document.getElementsByClassName('play');
+    for (let i = 0; i < buttons.length; i++) {
+      (buttons[i] as HTMLElement).style.backgroundImage = 'url(../assets/images/play.png)';
+    }
+    const audio = document.getElementById('preListen') as HTMLAudioElement;
+
+    if (audio.src === ServerRequestsUrls.Download + song.Id) {
+      button.style.backgroundImage = 'url(../assets/images/play.png)';
+      audio.src = '';
+      audio.pause();
+    } else {
+      button.style.backgroundImage = 'url(../assets/images/pause.png)';
+      audio.src = ServerRequestsUrls.Download + song.Id;
+      audio.currentTime = song.Duration / 3;
+      audio.play();
+    }
   }
 }
 

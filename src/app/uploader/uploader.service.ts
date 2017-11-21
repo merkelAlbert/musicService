@@ -24,7 +24,6 @@ export class UploaderHttpService {
         alert(res);
       },
       error => {
-        alert(error.message);
         ErrorHandler.handleError(error);
       }
     );
