@@ -1,9 +1,13 @@
-<form #uploadForm="ngForm" id="uploaderForm" (ngSubmit)="onSend(); loading">
-  <div *ngIf="isCompleted(); else loading">
-    <input type="file" name="file" id="file" #file>
-    <input type="submit"/>
-  </div>
-</form>
+<div class="content-container material">
+  <form #uploadForm="ngForm" id="uploaderForm" (ngSubmit)="onSend()">
+    <div *ngIf="isCompleted(); else loading">
+      <input type="file" name="file" id="file" #file>
+      <input type="submit"/>
+    </div>
+  </form>
+</div>
 <ng-template align="center" #loading>
-  <img src="./assets/images/loading.gif" alt="Loading">
+  <div class="loading-image">
+    <img src="./assets/images/loading.gif" alt="Loading">
+  </div>
 </ng-template>

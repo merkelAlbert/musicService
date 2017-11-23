@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SongItem} from '../shared/SongItem';
 import {SongsHttpService, SongsEventsService, SongsViewService} from '../shared/Songs/songs.service';
 import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
+import {MenuItems} from '../shared/MenuItems';
 
 @Component({
   selector: 'app-music-novelties',
@@ -13,7 +14,7 @@ import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
 export class TopComponent implements OnInit {
   songItems: SongItem[] = [];
   serverRequestsUrls = ServerRequestsUrls;
-  title = 'Топ песен';
+  title = MenuItems.topSongs.name;
   observer: MutationObserver;
 
   constructor(private httpService: SongsHttpService, private eventsService: SongsEventsService,
@@ -49,13 +50,7 @@ export class TopComponent implements OnInit {
     const config = {attributes: true, childList: true, characterData: true};
     this.observer.observe(elRef, config);
 
-    this.httpService.getData(ServerRequestsUrls.Top).subscribe((data: any[]) => {
-      for (let i = 0; i < data.length; i++) {
-        this.songItems[i] = (new SongItem(data[i]['id'], data[i]['Artist'], data[i]['Title'], data[i]['Genre'],
-          data[i]['Bitrate'], data[i]['Duration'], data[i]['Size'],
-          new Date(Date.parse(data[i]['UploadDate'])), data[i]['CountOfDownload']));
-      }
-    });
+    this.songItems = this.httpService.getData(ServerRequestsUrls.Top);
   }
 
   isLoaded(): boolean {

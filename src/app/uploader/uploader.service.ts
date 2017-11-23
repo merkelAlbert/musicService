@@ -20,11 +20,11 @@ export class UploaderHttpService {
     myHeaders.append('enctype', 'multipart/form-data');
     return this.http.post(ServerRequestsUrls.Add, formData, {
       headers: myHeaders
-    }).subscribe(res => {
-        alert(res);
+    }).subscribe((res: Response) => {
+        // alert(res.text());
       },
       error => {
-        ErrorHandler.handleError(error);
+        alert(error.statusText);
       }
     );
   }

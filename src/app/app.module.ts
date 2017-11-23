@@ -12,10 +12,12 @@ import {HttpClientModule} from '@angular/common/http';
 import {TopComponent} from './top/top.component';
 import {SongsEventsService, SongsViewService} from './shared/Songs/songs.service';
 import {HeaderComponent} from './header/header.component';
+import {SearchComponent} from './search/search.component';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, RouterModule, AppRoutingModule, HttpClientModule],
-  declarations: [MusicAppComponent,  PlayerComponent, MenuComponent, UploaderComponent, NoveltiesComponent, TopComponent,  HeaderComponent],
+  declarations: [MusicAppComponent, PlayerComponent, MenuComponent, UploaderComponent,
+    NoveltiesComponent, TopComponent, HeaderComponent, SearchComponent],
   bootstrap: [MusicAppComponent],
   providers: [SongsEventsService, SongsViewService]
 })

@@ -1,32 +1,35 @@
-<div id="player">
-  <div id="main">
-    <div>
-      <div class="playback_controls">
-        <h2 id="title"></h2>
-        <div class="time-holder">
-          <div class="slider" id="slider">
-            <div class="fill"></div>
+<div class="content-container material">
+  <div id="player">
+    <div id="main">
+      <div>
+        <div class="playback_controls">
+          <h2 id="title"></h2>
+          <div class="time-holder">
+            <div class="slider" id="slider">
+              <div class="fill"></div>
+            </div>
+          </div>
+          <div>
+            <i class="fa fa-bars menu"></i>
+            <div class="buttons">
+              <i class="fa fa-passed" id="passed"></i>
+              <i class="fa fa-backward" id="back"></i>
+              <i class="fa fa-play loading" id="playpause"></i>
+              <i class="fa fa-forward" id="next"></i>
+              <i class="fa fa-overall" id="overall"></i>
+            </div>
           </div>
         </div>
-        <div>
-          <i class="fa fa-bars menu"></i>
-          <div class="buttons">
-            <i class="fa fa-passed" id="passed"></i>
-            <i class="fa fa-backward" id="back"></i>
-            <i class="fa fa-play loading" id="playpause"></i>
-            <i class="fa fa-forward" id="next"></i>
-            <i class="fa fa-overall" id="overall"></i>
-          </div>
-        </div>
+        <audio id="playbar"></audio>
       </div>
-      <audio id="playbar"></audio>
     </div>
+    <ol id="playlist" class="material">
+      <li *ngFor="let song of songs; let i=index;"><a class="track" href="{{serverRequestsUrls.Download}}{{song.Id}}">{{i+1}}.
+        {{song.Artist}} -
+        {{song.Title}}</a>
+        <div class="time">{{song.FormattedDuration}}</div>
+        <div class="icon delete material" (click)="onDelete(song)"></div>
+      </li>
+    </ol>
   </div>
-  <ol id="playlist" class="material">
-    <li *ngFor="let song of songs; let i=index;"><a class="track" href="{{serverRequestsUrls.Download}}{{song.Id}}">{{i+1}}. {{song.Artist}} -
-      {{song.Title}}</a>
-      <div class="time">{{song.FormattedDuration}}</div>
-      <div class="icon delete material" (click)="onDelete(song)"></div>
-    </li>
-  </ol>
 </div>

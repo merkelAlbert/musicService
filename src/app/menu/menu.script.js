@@ -1,26 +1,9 @@
-var menu = document.getElementById('menu')
-var isMenuOpened = false
+var body = document.body,
+  html = document.documentElement
 
-  function openMenu () {
-    menu.style.top = '50px'
-    menu.style.left = document.body.offsetLeft + 50 + 'px'
-    menu.style.width = '250px'
-    isMenuOpened = true
-  }
+var height = Math.max(body.scrollHeight, body.offsetHeight,
+  html.clientHeight, html.scrollHeight, html.offsetHeight)
 
-  function closeMenu () {
-    menu.style.top = '-110%'
-    menu.style.width = '0px'
-    isMenuOpened = false
-  }
-
-  export function menuInOut () {
-    if (!isMenuOpened) {
-      openMenu()
-    }
-    else {
-      closeMenu()
-    }
-  }
-
-
+window.addEventListener('load', function () {
+  document.getElementById('menu-container').style.height = height + 'px'
+})

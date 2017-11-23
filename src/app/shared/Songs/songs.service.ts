@@ -1,12 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import {ErrorHandler} from '../ErrorHandler';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {SongItem} from '../SongItem';
-import {Songs} from '../Songs';
+import {SongsInPlayer} from '../Songs';
 import {SongsArrayUtil} from '../SongsArrayUtil';
 import {ServerRequestsUrls} from '../ServerRequestsUrls';
 
@@ -16,18 +15,39 @@ export class SongsHttpService {
   constructor(private http: HttpClient) {
   }
 
-  getData(url: string): Observable<any> {
-    return this.http.get(url).catch((err: any) => {
-      ErrorHandler.handleError(err.message);
-      return err;
-    });
+  getData(url: string): SongItem[] {
+    const songs: SongItem[] = [];
+    this.http.get(url).subscribe((data: any[]) => {
+        for (let i = 0; i < data.length; i++) {
+          songs[i] = (new SongItem(data[i]['id'], data[i]['Artist'], data[i]['Title'], data[i]['Genre'],
+            data[i]['Bitrate'], data[i]['Duration'], data[i]['Size'],
+            new Date(Date.parse(data[i]['UploadDate'])), data[i]['CountOfDownload']));
+        }
+      },
+      (error: Error) => {
+       ErrorHandler.handleError(error);
+      });
+    return songs;
   }
 }
 
 @Injectable()
 export class SongsEventsService {
+  static currentButton: any;
+  static currentId = '';
+  static timer = null;
+
   song = new Subject<SongItem>();
   songStream = this.song.asObservable();
+
+  static pause(audio: HTMLAudioElement) {
+    audio.pause();
+    audio.removeAttribute('src');
+    SongsEventsService.currentId = '';
+    SongsEventsService.timer = null;
+    SongsEventsService.currentId = '';
+    SongsEventsService.currentButton = null;
+  }
 
   add(song: SongItem) {
     this.song.next(song);
@@ -43,21 +63,27 @@ export class SongsEventsService {
 
 
   playPauseSong(song: SongItem, button: any) {
-    const buttons = document.getElementsByClassName('play');
-    for (let i = 0; i < buttons.length; i++) {
-      (buttons[i] as HTMLElement).style.backgroundImage = 'url(../assets/images/play.png)';
+    if (SongsEventsService.currentButton) {
+      SongsEventsService.currentButton.style.backgroundImage = 'url(../assets/images/play.png)';
     }
     const audio = document.getElementById('preListen') as HTMLAudioElement;
-
-    if (audio.src === ServerRequestsUrls.Download + song.Id) {
-      button.style.backgroundImage = 'url(../assets/images/play.png)';
-      audio.src = '';
-      audio.pause();
+    if (SongsEventsService.timer !== null) {
+      clearTimeout(SongsEventsService.timer);
+    }
+    if (song.Id === SongsEventsService.currentId) {
+      SongsEventsService.pause(audio);
     } else {
       button.style.backgroundImage = 'url(../assets/images/pause.png)';
       audio.src = ServerRequestsUrls.Download + song.Id;
       audio.currentTime = song.Duration / 3;
+      SongsEventsService.currentId = song.Id;
+      SongsEventsService.currentButton = button;
       audio.play();
+
+      SongsEventsService.timer = setTimeout(function () {
+        button.style.backgroundImage = 'url(../assets/images/play.png)';
+        SongsEventsService.pause(audio);
+      }, 10000);
     }
   }
 }
@@ -69,7 +95,7 @@ export class SongsViewService {
     if (allSongs.length !== 0) {
       const allSongsButtons = document.getElementsByClassName('add');
       for (let i = 0; i < allSongs.length; i++) {
-        if (SongsArrayUtil.indexOf(Songs.list, allSongs[i].Id) !== -1) {
+        if (SongsArrayUtil.indexOf(SongsInPlayer.list, allSongs[i].Id) !== -1) {
           this.add(allSongsButtons[i] as HTMLElement);
         } else {
           this.cancel(allSongsButtons[i] as HTMLElement);

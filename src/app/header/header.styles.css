@@ -2,12 +2,14 @@
   color: white;
   position: fixed;
   top: 0;
+  left: 0;
   z-index: 1000;
   margin: auto;
-  width: 90%;
+  width: 100%;
 }
 
 .header-menu {
+  border-radius: 0px;
   background-color: #4A148C;
   list-style: none;
   display: flex;
@@ -32,14 +34,11 @@
   margin: 0 20px;
 }
 
-.header-menu-player-button {
-  margin: auto 15px;
-  flex: 1
-}
+/*.header-menu-player-button {*/
+  /*margin: auto 15px;*/
+  /*flex: 1*/
+/*}*/
 
-.header-menu-item:hover {
-  cursor: pointer;
-}
 
 .header-menu-item-icon {
   width: 30px;
@@ -54,10 +53,6 @@
   border-radius: 50%;
   background-color: white;
   transition: 0.5s ease;
-}
-
-.header-menu-item-title {
-  flex: 1;
 }
 
 .search-form {

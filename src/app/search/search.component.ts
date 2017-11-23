@@ -3,21 +3,21 @@ import {SongItem} from '../shared/SongItem';
 import {SongsHttpService, SongsEventsService, SongsViewService} from '../shared/Songs/songs.service';
 import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
 import {MenuItems} from '../shared/MenuItems';
+import {FindedSongs} from '../shared/Songs';
 
 @Component({
-  selector: 'app-music-novelties',
+  selector: 'app-music-search',
   templateUrl: '../shared/Songs/songs.html',
   styleUrls: ['../shared/Songs/songs.styles.css'],
-  providers: [SongsHttpService]
 })
 
-export class NoveltiesComponent implements OnInit {
-  songItems: SongItem[] = [];
+export class SearchComponent implements OnInit {
+  songItems = [];
   serverRequestsUrls = ServerRequestsUrls;
-  title = MenuItems.novelties.name;
+  title = 'Найденные песни';
   observer: MutationObserver;
 
-  constructor(private httpService: SongsHttpService, private eventsService: SongsEventsService,
+  constructor(private eventsService: SongsEventsService,
               private viewService: SongsViewService) {
   }
 
@@ -51,11 +51,10 @@ export class NoveltiesComponent implements OnInit {
     );
     const config = {attributes: true, childList: true, characterData: true};
     this.observer.observe(elRef, config);
-
-    this.songItems = this.httpService.getData(ServerRequestsUrls.Novelties);
   }
 
   isLoaded(): boolean {
+    this.songItems = FindedSongs.list;
     return this.eventsService.isLoaded(this.songItems);
   }
 

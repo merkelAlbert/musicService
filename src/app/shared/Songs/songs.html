@@ -1,6 +1,6 @@
-<div class="songs-container" id="songs-container">
+<div class="content-container material" id="songs-container">
   <audio id="preListen"></audio>
-  <div *ngIf="isLoaded(); else loading">
+  <div *ngIf="isLoaded(); else loading" class="content">
     <h1 class="colored">{{title}}</h1>
     <button class="material songs-button block" id="selectAll" (click)="selectAll()">Выбрать все</button>
     <button class="material songs-button block" id="cancelAll" (click)="cancelAll()">Удалить все</button>
@@ -17,11 +17,11 @@
           <!--<p>Жанр: <span class="bold">{{item.Genre}}</span></p>-->
         </div>
         <!--<div class="info">-->
-          <!--<p>Битрейт: <span class="bold">{{item.Bitrate}}</span></p>-->
-          <!--<p>Длительность: <span class="bold">{{item.FormattedDuration}}</span></p>-->
-          <!--<p>Размер: <span class="bold">{{item.Size}}</span></p>-->
-          <!--<p>Дата загрузки: <span class="bold">{{item.UploadDate}}</span></p>-->
-          <!--<p>Число загрузок: <span class="bold">{{item.CountOfDownloads}}</span></p>-->
+        <!--<p>Битрейт: <span class="bold">{{item.Bitrate}}</span></p>-->
+        <!--<p>Длительность: <span class="bold">{{item.FormattedDuration}}</span></p>-->
+        <!--<p>Размер: <span class="bold">{{item.Size}}</span></p>-->
+        <!--<p>Дата загрузки: <span class="bold">{{item.UploadDate}}</span></p>-->
+        <!--<p>Число загрузок: <span class="bold">{{item.CountOfDownloads}}</span></p>-->
         <!--</div>-->
         <a class="icon download material" href="{{serverRequestsUrls.Download+item.Id}}" download>
         </a>
@@ -31,6 +31,8 @@
     </div>
   </div>
   <ng-template align="center" #loading>
-    <img src="./assets/images/loading.gif" alt="Loading">
+    <div class="loading-image">
+      <img src="./assets/images/loading.gif" alt="Loading">
+    </div>
   </ng-template>
 </div>

@@ -5,11 +5,13 @@ import {MenuItems} from './shared/MenuItems';
 import {NoveltiesComponent} from './novelties/novelties.component';
 import {TopComponent} from './top/top.component';
 import {CommonModule} from '@angular/common';
+import {SearchComponent} from './search/search.component';
 
 const appRoutes: Routes = [
   {path: MenuItems.upload.url, component: UploaderComponent},
   {path: MenuItems.novelties.url, component: NoveltiesComponent},
-  {path: MenuItems.topSongs.url, component: TopComponent}
+  {path: MenuItems.topSongs.url, component: TopComponent},
+  {path: MenuItems.search.url, component: SearchComponent}
 ];
 
 @NgModule({

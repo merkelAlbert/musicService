@@ -1,13 +1,128 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css");
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  /*html, body {*/
+  /*width: 400px;*/
+  /*}*/
+}
+
+/* Smartphones (landscape) ----------- */
+@media only screen and (min-width: 321px) {
+  /* Styles */
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen and (max-width: 320px) {
+  /* Styles */
+}
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  /* Styles */
+}
+
+/* iPads (landscape) ----------- */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+  /* Styles */
+}
+
+/* iPads (portrait) ----------- */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+  /* Styles */
+}
+
+/**********
+iPad 3
+**********/
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+/* Desktops and laptops ----------- */
+@media only screen  and (min-width: 1224px) {
+  /* Styles */
+}
+
+/* Large screens ----------- */
+@media only screen  and (min-width: 1824px) {
+  /* Styles */
+}
+
+/* iPhone 4 ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+/* iPhone 5 ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-height: 568px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-height: 568px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+/* iPhone 6 ----------- */
+@media only screen and (min-device-width: 375px) and (max-device-height: 667px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-height: 667px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+/* iPhone 6+ ----------- */
+@media only screen and (min-device-width: 414px) and (max-device-height: 736px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+@media only screen and (min-device-width: 414px) and (max-device-height: 736px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+/* Samsung Galaxy S3 ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2) {
+  /* Styles */
+}
+
+/* Samsung Galaxy S4 ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 3) {
+  /* Styles */
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-height: 640px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 3) {
+  /* Styles */
+}
+
+/* Samsung Galaxy S5 ----------- */
+@media only screen and (min-device-width: 360px) and (max-device-height: 640px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 3) {
+  /* Styles */
+}
+
+@media only screen and (min-device-width: 360px) and (max-device-height: 640px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 3) {
+  /* Styles */
+}
+
 html, body {
   color: rgba(0, 0, 0, 0.8);
   font-family: 'Roboto', sans-serif;
-  background: white;
+  background: #eee;
   padding: 0;
   margin: auto;
-  width: 1200px;
+  width: 100%;
 }
 
 .material {
@@ -33,10 +148,27 @@ html, body {
   cursor: pointer;
 }
 
-.loading {
-  text-align: center;
+.loading-image {
+  height: 400px;
+  background: url('assets/images/loading.gif') 100% 100% no-repeat;
+  background-size: cover;
 }
 
 .block {
   border-radius: 5px;
+}
+
+.main {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.content-container {
+  margin: auto;
+  display: flex;
+  background-color: white;
+  min-height: 100vh;
+  justify-content: center;
+  padding: 50px;
 }
