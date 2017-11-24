@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SongItem} from '../shared/SongItem';
-import {SongsHttpService, SongsEventsService, SongsViewService} from '../shared/Songs/songs.service';
+import {SongsHttpService, SongsEventsService, SongsViewService} from '../shared/Songs/songs.services';
 import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
 import {MenuItems} from '../shared/MenuItems';
 import {FindedSongs} from '../shared/Songs';
@@ -35,11 +35,15 @@ export class SearchComponent implements OnInit {
   }
 
   selectAll() {
-    document.getElementById('selectAll').style.display = 'none';
     const buttons = document.getElementsByClassName('add');
     for (let i = 0; i < this.songItems.length; i++) {
       this.onAdd(this.songItems[i], (buttons[i] as HTMLElement));
     }
+  }
+
+  cancelAll() {
+    this.eventsService.cancelAll();
+    this.check();
   }
 
   ngOnInit() {
@@ -53,9 +57,19 @@ export class SearchComponent implements OnInit {
     this.observer.observe(elRef, config);
   }
 
+  toggleFindedButton() {
+    if (FindedSongs.list.length > 0) {
+      document.getElementById('findedSongsItem').style.display = 'block';
+    } else  {
+      document.getElementById('findedSongsItem').style.display = 'none';
+    }
+  }
+
   isLoaded(): boolean {
     this.songItems = FindedSongs.list;
-    return this.eventsService.isLoaded(this.songItems);
+    const result = this.eventsService.isLoaded(this.songItems);
+    this.toggleFindedButton();
+    return result;
   }
 
   playPauseSong(song: SongItem, button: any) {

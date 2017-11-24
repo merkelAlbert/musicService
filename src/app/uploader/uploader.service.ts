@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {HttpHeaders} from '@angular/common/http';
-import {ErrorHandler} from '../shared/ErrorHandler';
+import {ResponseHandler} from '../shared/ResponseHandler';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
@@ -10,7 +10,6 @@ import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
 export class UploaderHttpService {
   constructor(private http: HttpClient) {
   }
-
 
   sendData(file: any) {
     const formData = new FormData();
@@ -21,7 +20,6 @@ export class UploaderHttpService {
     return this.http.post(ServerRequestsUrls.Add, formData, {
       headers: myHeaders
     }).subscribe((res: Response) => {
-        // alert(res.text());
       },
       error => {
         alert(error.statusText);

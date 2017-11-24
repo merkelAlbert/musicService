@@ -10,7 +10,7 @@ import {UploaderComponent} from './uploader/uploader.component';
 import {NoveltiesComponent} from './novelties/novelties.component';
 import {HttpClientModule} from '@angular/common/http';
 import {TopComponent} from './top/top.component';
-import {SongsEventsService, SongsViewService} from './shared/Songs/songs.service';
+import {SongsEventsService, SongsViewService} from './shared/Songs/songs.services';
 import {HeaderComponent} from './header/header.component';
 import {SearchComponent} from './search/search.component';
 

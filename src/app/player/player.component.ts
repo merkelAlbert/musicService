@@ -1,5 +1,5 @@
 import {Component, OnInit, ElementRef} from '@angular/core';
-import {SongsEventsService} from '../shared/Songs/songs.service';
+import {SongsEventsService} from '../shared/Songs/songs.services';
 import {Subscription} from 'rxjs/Subscription';
 import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
 import {SongsInPlayer} from '../shared/Songs';
@@ -35,7 +35,14 @@ export class PlayerComponent implements OnInit {
     const config = {attributes: true, childList: true, characterData: true};
     this.observer.observe(elRef, config);
     this.subscription = this.eventsService.songStream.subscribe(data => {
-      SongsInPlayer.list.push(data);
+      if (data != null) {
+        SongsInPlayer.list.push(data);
+      } else {
+        const length = SongsInPlayer.list.length;
+        for (let i = 0; i < length; i++) {
+          SongsInPlayer.list.pop();
+        }
+      }
     });
   }
 

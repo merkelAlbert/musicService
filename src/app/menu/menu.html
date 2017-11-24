@@ -5,8 +5,8 @@
           routerLink="{{menuItem.url}}" (click)="onChoose()">
         {{menuItem.name}}
       </li>
-      <li class="main-menu-list-item" *ngIf="findedSongs.length>0" routerLink="{{search}}">
-          Найденные песни
+      <li class="main-menu-list-item" routerLink="{{search}}" (click)="onChoose()" id="findedSongsItem">
+        Найденные песни
       </li>
     </ul>
   </div>

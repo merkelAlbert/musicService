@@ -2,11 +2,11 @@
   <audio id="preListen"></audio>
   <div *ngIf="isLoaded(); else loading" class="content">
     <h1 class="colored">{{title}}</h1>
-    <button class="material songs-button block" id="selectAll" (click)="selectAll()">Выбрать все</button>
-    <button class="material songs-button block" id="cancelAll" (click)="cancelAll()">Удалить все</button>
+    <button class="material songs-button block" title="Добавить все" id="selectAll" (click)="selectAll()"></button>
+    <button class="material songs-button block" title="Удалить все" id="cancelAll" (click)="cancelAll()"></button>
     <div *ngFor="let item of songItems; let i=index;" class="songs-item-container material">
       <div class="songs-play-container">
-        <a class="icon play material" (click)="playPauseSong(item, button)" #button>
+        <a class="icon play material" title="Предпрослушать" (click)="playPauseSong(item, button)" #button>
         </a>
       </div>
       <div class="songs-item info-container">
@@ -16,16 +16,18 @@
           <!--<p>Название: <span class="bold colored">{{item.Title}}</span></p>-->
           <!--<p>Жанр: <span class="bold">{{item.Genre}}</span></p>-->
         </div>
-        <!--<div class="info">-->
-        <!--<p>Битрейт: <span class="bold">{{item.Bitrate}}</span></p>-->
-        <!--<p>Длительность: <span class="bold">{{item.FormattedDuration}}</span></p>-->
-        <!--<p>Размер: <span class="bold">{{item.Size}}</span></p>-->
-        <!--<p>Дата загрузки: <span class="bold">{{item.UploadDate}}</span></p>-->
-        <!--<p>Число загрузок: <span class="bold">{{item.CountOfDownloads}}</span></p>-->
-        <!--</div>-->
+      </div>
+      <!--<div class="info">-->
+      <!--<p>Битрейт: <span class="bold">{{item.Bitrate}}</span></p>-->
+      <!--<p>Длительность: <span class="bold">{{item.FormattedDuration}}</span></p>-->
+      <!--<p>Размер: <span class="bold">{{item.Size}}</span></p>-->
+      <!--<p>Дата загрузки: <span class="bold">{{item.UploadDate}}</span></p>-->
+      <!--<p>Число загрузок: <span class="bold">{{item.CountOfDownloads}}</span></p>-->
+      <!--</div>-->
+      <div class="add-download-buttons">
         <a class="icon download material" href="{{serverRequestsUrls.Download+item.Id}}" download>
         </a>
-        <a #element class="icon add material" (click)="onAdd(item, element)">
+        <a #element class="icon add material" title="Добавить в плеер" (click)="onAdd(item, element)">
         </a>
       </div>
     </div>

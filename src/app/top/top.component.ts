@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SongItem} from '../shared/SongItem';
-import {SongsHttpService, SongsEventsService, SongsViewService} from '../shared/Songs/songs.service';
+import {SongsHttpService, SongsEventsService, SongsViewService} from '../shared/Songs/songs.services';
 import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
 import {MenuItems} from '../shared/MenuItems';
 
@@ -38,6 +38,11 @@ export class TopComponent implements OnInit {
     for (let i = 0; i < this.songItems.length; i++) {
       this.onAdd(this.songItems[i], (buttons[i] as HTMLElement));
     }
+  }
+
+  cancelAll() {
+    this.eventsService.cancelAll();
+    this.check();
   }
 
   ngOnInit() {

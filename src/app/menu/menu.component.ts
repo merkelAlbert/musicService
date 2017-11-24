@@ -2,9 +2,6 @@ import {Component, Output, EventEmitter, OnInit} from '@angular/core';
 import {MenuItems} from '../shared/MenuItems';
 import {FindedSongs} from '../shared/Songs';
 
-// declare var System: any;
-// System.import('./menu.script.js');
-
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.html',
@@ -29,14 +26,6 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit() {
-    // const element = this;
-    // const elRef = document.getElementById('songs-container');
-    // this.observer = new MutationObserver(mutations => {
-    //     console.log('changed');
-    //   }
-    // );
-    // const config = {attributes: true, childList: true, characterData: true};
-    // this.observer.observe(elRef, config);
+    document.getElementById('findedSongsItem').style.display = 'none';
   }
-
 }

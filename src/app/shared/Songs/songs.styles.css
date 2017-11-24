@@ -1,14 +1,11 @@
 .songs-item-container {
   margin: 10px auto;
   display: flex;
+  width: 100%;
   max-height: 40px;
   padding: 5px;
 }
 
-.songs-play-container {
-  display: flex;
-  margin: auto 10px;
-}
 
 .songs-item {
   margin: auto 0;
@@ -20,13 +17,13 @@
 }
 
 .info-container {
-  flex: 1;
+  width: 70%;
   display: inline-flex;
   margin: auto 5px;
 }
 
 .info {
-  flex: 1;
+  width: inherit;
   margin: auto 0px;
   font-size: 14px;
 
@@ -37,15 +34,26 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  max-width: 90%;
 }
 
 .download {
-  background-image: url("../../../assets/images/download.gif");
+  background-image: url("../../../assets/images/download.png");
+  background-size: 35px;
 }
 
 .add {
   background-image: url("../../../assets/images/add.png");
+}
+
+.add-download-buttons {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.songs-play-container {
+  display: inline-flex;
+  margin: auto 0px;
 }
 
 .title {
@@ -76,4 +84,18 @@
 
 .content {
   width: 90%;
+}
+
+.songs-button {
+  background-size: 50px;
+  height: 50px;
+  width: 50px;
+}
+
+#selectAll {
+  background-image: url('../../../assets/images/addAll.png');
+}
+
+#cancelAll {
+  background-image: url('../../../assets/images/cancelAll.png');
 }

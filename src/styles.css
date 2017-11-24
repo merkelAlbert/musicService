@@ -138,7 +138,7 @@ html, body {
   border-radius: 30px;
   width: 30px;
   height: 30px;
-  background-size: 150px;
+  background-size: 200px;
   background-position: center center;
   background-repeat: no-repeat;
   margin: auto 10px;
@@ -149,9 +149,7 @@ html, body {
 }
 
 .loading-image {
-  height: 400px;
-  background: url('assets/images/loading.gif') 100% 100% no-repeat;
-  background-size: cover;
+  height: 50%;
 }
 
 .block {

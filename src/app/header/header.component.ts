@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {MenuItems} from '../shared/MenuItems';
-import {SongsHttpService} from '../shared/Songs/songs.service';
+import {SongsHttpService} from '../shared/Songs/songs.services';
 import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
 import {SongItem} from '../shared/SongItem';
 import {FindedSongs, SongsInPlayer} from '../shared/Songs';
@@ -44,9 +44,4 @@ export class HeaderComponent {
   //   });
   // }
 
-  // menu() {
-  //   System.import('../menu/menu.script.js').then(script => {
-  //     script.menuInOut();
-  //   });
-  // }
 }
