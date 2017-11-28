@@ -5,14 +5,16 @@
       <div class="header-menu-item-title">Music app</div>
     </li>
     <!--<li class="header-menu-player">-->
-      <!--<button class="header-menu-player-button material" (click)="nextSong()">next</button>-->
-      <!--<button class="header-menu-player-button material" (click)="prevSong()">prev</button>-->
-      <!--<button class="header-menu-player-button material" (click)="playPauseSong()">plpa</button>-->
+    <!--<button class="header-menu-player-button material" (click)="nextSong()">next</button>-->
+    <!--<button class="header-menu-player-button material" (click)="prevSong()">prev</button>-->
+    <!--<button class="header-menu-player-button material" (click)="playPauseSong()">plpa</button>-->
     <!--</li>-->
     <li class="header-menu-item">
-      <form action="" class="search-form" (ngSubmit)="onSend()" id="search-form">
-        <input type="text" name="text" id="text" class="search-input material block">
-        <button type="submit" class="submit material block" routerLink="{{search}}">{{title}}</button>
+      <form class="search-form" id="search-form" #form="ngForm">
+        <input type="text" name="text" id="text" class="search-input material block" ngModel>
+        <button type="submit" class="submit material block" [disabled]="!form.valid"
+                routerLink='{{search}}'>{{title}}
+        </button>
       </form>
     </li>
   </ul>

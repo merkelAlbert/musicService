@@ -2,23 +2,25 @@ import {Component, OnInit} from '@angular/core';
 import {SongItem} from '../shared/SongItem';
 import {SongsHttpService, SongsEventsService, SongsViewService} from '../shared/Songs/songs.services';
 import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
-import {MenuItems} from '../shared/MenuItems';
 import {FindedSongs} from '../shared/Songs';
+import {ServerResponse} from '../shared/ServerResponse';
 
 @Component({
   selector: 'app-music-search',
   templateUrl: '../shared/Songs/songs.html',
   styleUrls: ['../shared/Songs/songs.styles.css'],
+  providers: [SongsHttpService]
 })
 
 export class SearchComponent implements OnInit {
-  songItems = [];
+  songItems = null;
   serverRequestsUrls = ServerRequestsUrls;
   title = 'Найденные песни';
-  observer: MutationObserver;
+  isReceived: boolean[];
+  response: ServerResponse = null;
 
   constructor(private eventsService: SongsEventsService,
-              private viewService: SongsViewService) {
+              private viewService: SongsViewService, private httpService: SongsHttpService) {
   }
 
 
@@ -31,7 +33,9 @@ export class SearchComponent implements OnInit {
 
 
   check() {
-    this.viewService.checkAdded(this.songItems);
+    if (this.songItems) {
+      this.viewService.checkAdded(this.songItems);
+    }
   }
 
   selectAll() {
@@ -42,34 +46,52 @@ export class SearchComponent implements OnInit {
   }
 
   cancelAll() {
-    this.eventsService.cancelAll();
+    this.eventsService.cancelAll(this.songItems);
     this.check();
   }
+
+  getSongs() {
+    this.response = this.httpService.getData(ServerRequestsUrls.Search
+      + (document.getElementById('text') as HTMLTextAreaElement).value);
+    FindedSongs.list = this.response.songs;
+    this.isReceived = this.response.isSuccessfully;
+    this.songItems = this.response.songs;
+  }
+
 
   ngOnInit() {
     const element = this;
     const elRef = document.getElementById('songs-container');
-    this.observer = new MutationObserver(mutations => {
+    const observer = new MutationObserver(() => {
         element.check();
       }
     );
     const config = {attributes: true, childList: true, characterData: true};
-    this.observer.observe(elRef, config);
+    observer.observe(elRef, config);
+    const el = this;
+    document.getElementById('text').addEventListener('change', function () {
+      el.getSongs();
+    });
+    this.getSongs();
   }
 
   toggleFindedButton() {
     if (FindedSongs.list.length > 0) {
       document.getElementById('findedSongsItem').style.display = 'block';
-    } else  {
+    } else {
       document.getElementById('findedSongsItem').style.display = 'none';
     }
   }
 
+  isEmpty(): boolean {
+    console.log(this.songItems.length);
+    return this.songItems.length === 0 ? true : false;
+  }
+
   isLoaded(): boolean {
-    this.songItems = FindedSongs.list;
-    const result = this.eventsService.isLoaded(this.songItems);
+    console.log(this.isReceived[0]);
     this.toggleFindedButton();
-    return result;
+    return this.isReceived[0];
   }
 
   playPauseSong(song: SongItem, button: any) {

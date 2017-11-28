@@ -1,6 +1,6 @@
 <div class="content-container material" id="songs-container">
   <audio id="preListen"></audio>
-  <div *ngIf="isLoaded(); else loading" class="content">
+  <div *ngIf="isLoaded() && !isEmpty();" class="content">
     <h1 class="colored">{{title}}</h1>
     <button class="material songs-button block" title="Добавить все" id="selectAll" (click)="selectAll()"></button>
     <button class="material songs-button block" title="Удалить все" id="cancelAll" (click)="cancelAll()"></button>
@@ -32,9 +32,12 @@
       </div>
     </div>
   </div>
-  <ng-template align="center" #loading>
+  <div *ngIf="!isLoaded()" id="loading">
     <div class="loading-image">
       <img src="./assets/images/loading.gif" alt="Loading">
     </div>
-  </ng-template>
+  </div>
+  <div *ngIf="isLoaded() && isEmpty();">
+    Не найдено, братан
+  </div>
 </div>

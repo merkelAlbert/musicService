@@ -118,7 +118,7 @@ export function pause () {
   $('#playpause').addClass('fa-play').removeClass('fa-pause')
 }
 
-var play = function () {
+export function play() {
   audio.play()
   $('#playpause').removeClass('fa-play').addClass('fa-pause').removeClass('loading')
   var index = tracks.indexOf(audio.src)

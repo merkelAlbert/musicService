@@ -5,6 +5,9 @@ export class SongsInPlayer {
 }
 
 export class FindedSongs {
-  public static list: SongItem[] = [];
+  public static list: SongItem[] = null;
+}
 
+export class DeletedSongs {
+  public static list: SongItem[] = [];
 }

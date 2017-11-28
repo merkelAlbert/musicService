@@ -16,6 +16,7 @@ export class TopComponent implements OnInit {
   serverRequestsUrls = ServerRequestsUrls;
   title = MenuItems.topSongs.name;
   observer: MutationObserver;
+  isReceived: boolean[];
 
   constructor(private httpService: SongsHttpService, private eventsService: SongsEventsService,
               private viewService: SongsViewService) {
@@ -30,7 +31,9 @@ export class TopComponent implements OnInit {
 
 
   check() {
-    this.viewService.checkAdded(this.songItems);
+    if (this.songItems) {
+      this.viewService.checkAdded(this.songItems);
+    }
   }
 
   selectAll() {
@@ -41,7 +44,7 @@ export class TopComponent implements OnInit {
   }
 
   cancelAll() {
-    this.eventsService.cancelAll();
+    this.eventsService.cancelAll(this.songItems);
     this.check();
   }
 
@@ -55,11 +58,18 @@ export class TopComponent implements OnInit {
     const config = {attributes: true, childList: true, characterData: true};
     this.observer.observe(elRef, config);
 
-    this.songItems = this.httpService.getData(ServerRequestsUrls.Top);
+    const response = this.httpService.getData(ServerRequestsUrls.Top);
+
+    this.songItems = response.songs;
+    this.isReceived = response.isSuccessfully;
+  }
+
+  isEmpty(): boolean {
+    return this.songItems.length === 0 ? true : false;
   }
 
   isLoaded(): boolean {
-    return this.eventsService.isLoaded(this.songItems);
+    return this.isReceived[0];
   }
 
   playPauseSong(song: SongItem, button: any) {

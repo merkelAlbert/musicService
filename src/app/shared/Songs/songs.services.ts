@@ -4,10 +4,14 @@ import {Subject} from 'rxjs/Subject';
 import {ResponseHandler} from '../ResponseHandler';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/retry';
 import {SongItem} from '../SongItem';
-import {SongsInPlayer} from '../Songs';
+import {DeletedSongs, SongsInPlayer} from '../Songs';
 import {SongsArrayUtil} from '../SongsArrayUtil';
 import {ServerRequestsUrls} from '../ServerRequestsUrls';
+import {ServerResponse} from '../ServerResponse';
+
+declare var System: any;
 
 @Injectable()
 export class SongsHttpService {
@@ -15,19 +19,24 @@ export class SongsHttpService {
   constructor(private http: HttpClient) {
   }
 
-  getData(url: string): SongItem[] {
-    const songs: SongItem[] = [];
-    this.http.get(url).subscribe((data: any[]) => {
-        for (let i = 0; i < data.length; i++) {
-          songs[i] = (new SongItem(data[i]['id'], data[i]['Artist'], data[i]['Title'], data[i]['Genre'],
-            data[i]['Bitrate'], data[i]['Duration'], data[i]['Size'],
-            new Date(Date.parse(data[i]['UploadDate'])), data[i]['CountOfDownload']));
+  getData(url: string): ServerResponse {
+    const songs = [];
+    const isSuccessfully = [];
+    this.http.get(url).retry(5).subscribe((data: any[]) => {
+        if (data) {
+          for (let i = 0; i < data.length; i++) {
+            songs.push(new SongItem(data[i]['id'], data[i]['Artist'], data[i]['Title'], data[i]['Genre'],
+              data[i]['Bitrate'], data[i]['Duration'], data[i]['Size'],
+              new Date(Date.parse(data[i]['UploadDate'])), data[i]['CountOfDownload']));
+          }
         }
+        isSuccessfully.push(true);
       },
-      (error: Error) => {
+      error => {
+        isSuccessfully.push(false);
         ResponseHandler.handle(error);
       });
-    return songs;
+    return new ServerResponse(songs, isSuccessfully);
   }
 }
 
@@ -42,6 +51,9 @@ export class SongsEventsService {
 
   static pause(audio: HTMLAudioElement) {
     audio.pause();
+    System.import('../player.script.js').then(script => {
+      script.play();
+    });
     audio.removeAttribute('src');
     SongsEventsService.currentId = '';
     SongsEventsService.timer = null;
@@ -53,15 +65,16 @@ export class SongsEventsService {
     this.song.next(song);
   }
 
-  cancelAll() {
+  cancelAll(deletedSongs: SongItem[]) {
+    DeletedSongs.list = deletedSongs;
     this.song.next(null);
   }
 
   isLoaded(songs: SongItem[]) {
-    if (songs.length) {
-      return true;
-    } else {
+    if (!songs) {
       return false;
+    } else {
+      return true;
     }
   }
 
@@ -82,6 +95,9 @@ export class SongsEventsService {
       audio.currentTime = song.Duration / 3;
       SongsEventsService.currentId = song.Id;
       SongsEventsService.currentButton = button;
+      System.import('../player.script.js').then(script => {
+        script.pause();
+      });
       audio.play();
 
       SongsEventsService.timer = setTimeout(function () {

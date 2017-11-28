@@ -2,7 +2,7 @@ import {Component, OnInit, ElementRef} from '@angular/core';
 import {SongsEventsService} from '../shared/Songs/songs.services';
 import {Subscription} from 'rxjs/Subscription';
 import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
-import {SongsInPlayer} from '../shared/Songs';
+import {DeletedSongs, SongsInPlayer} from '../shared/Songs';
 import {SongItem} from '../shared/SongItem';
 import {SongsArrayUtil} from '../shared/SongsArrayUtil';
 
@@ -35,13 +35,14 @@ export class PlayerComponent implements OnInit {
     const config = {attributes: true, childList: true, characterData: true};
     this.observer.observe(elRef, config);
     this.subscription = this.eventsService.songStream.subscribe(data => {
-      if (data != null) {
+      if (data) {
         SongsInPlayer.list.push(data);
       } else {
-        const length = SongsInPlayer.list.length;
+        const length = DeletedSongs.list.length;
         for (let i = 0; i < length; i++) {
-          SongsInPlayer.list.pop();
+          SongsArrayUtil.delete(SongsInPlayer.list, DeletedSongs.list[i]);
         }
+        DeletedSongs.list = [];
       }
     });
   }

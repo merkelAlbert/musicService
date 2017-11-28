@@ -1,9 +1,7 @@
 import {Component} from '@angular/core';
 import {MenuItems} from '../shared/MenuItems';
 import {SongsHttpService} from '../shared/Songs/songs.services';
-import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
-import {SongItem} from '../shared/SongItem';
-import {FindedSongs, SongsInPlayer} from '../shared/Songs';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 declare var System: any;
 
@@ -11,19 +9,18 @@ declare var System: any;
   selector: 'app-header',
   templateUrl: './header.html',
   styleUrls: ['./header.styles.css'],
-  providers: [SongsHttpService]
+  providers: [SongsHttpService, FormBuilder]
 })
 export class HeaderComponent {
 
+  form: FormGroup;
   title = MenuItems.search.name;
   search = MenuItems.search.url;
 
-  constructor(private httpService: SongsHttpService) {
-  }
-
-  onSend() {
-    FindedSongs.list = this.httpService.getData(ServerRequestsUrls.Search
-      + (document.getElementById('text') as HTMLTextAreaElement).value);
+  constructor(private httpService: SongsHttpService, private builder: FormBuilder) {
+    this.form = builder.group({
+      'text': [null, Validators.required]
+    });
   }
 
   // nextSong() {

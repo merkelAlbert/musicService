@@ -3,7 +3,7 @@ import {SongItem} from '../shared/SongItem';
 import {SongsHttpService, SongsEventsService, SongsViewService} from '../shared/Songs/songs.services';
 import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
 import {MenuItems} from '../shared/MenuItems';
-import {SongsInPlayer} from '../shared/Songs';
+import {DeletedSongs, SongsInPlayer} from '../shared/Songs';
 
 @Component({
   selector: 'app-music-novelties',
@@ -17,6 +17,7 @@ export class NoveltiesComponent implements OnInit {
   serverRequestsUrls = ServerRequestsUrls;
   title = MenuItems.novelties.name;
   observer: MutationObserver;
+  isReceived: boolean[];
 
   constructor(private httpService: SongsHttpService, private eventsService: SongsEventsService,
               private viewService: SongsViewService) {
@@ -32,7 +33,9 @@ export class NoveltiesComponent implements OnInit {
 
 
   check() {
-    this.viewService.checkAdded(this.songItems);
+    if (this.songItems) {
+      this.viewService.checkAdded(this.songItems);
+    }
   }
 
   selectAll() {
@@ -43,7 +46,7 @@ export class NoveltiesComponent implements OnInit {
   }
 
   cancelAll() {
-    this.eventsService.cancelAll();
+    this.eventsService.cancelAll(this.songItems);
     this.check();
   }
 
@@ -57,11 +60,18 @@ export class NoveltiesComponent implements OnInit {
     const config = {attributes: true, childList: true, characterData: true};
     this.observer.observe(elRef, config);
 
-    this.songItems = this.httpService.getData(ServerRequestsUrls.Novelties);
+    const response = this.httpService.getData(ServerRequestsUrls.Novelties);
+
+    this.songItems = response.songs;
+    this.isReceived = response.isSuccessfully;
+  }
+
+  isEmpty(): boolean {
+    return this.songItems.length === 0 ? true : false;
   }
 
   isLoaded(): boolean {
-    return this.eventsService.isLoaded(this.songItems);
+    return this.isReceived[0];
   }
 
   playPauseSong(song: SongItem, button: any) {
