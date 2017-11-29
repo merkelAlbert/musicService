@@ -49,13 +49,19 @@ export class SongsEventsService {
   song = new Subject<SongItem>();
   songStream = this.song.asObservable();
 
+  static clearTimers() {
+    for (let i = 0; i < SongsEventsService.timers.length; i++) {
+      clearTimeout(SongsEventsService.timers[i]);
+    }
+    SongsEventsService.timers = [];
+  }
+
   static pause() {
     if (SongsEventsService.audio) {
+      console.log('pause');
       SongsEventsService.audio.pause();
       SongsEventsService.audio.removeAttribute('src');
       SongsEventsService.currentId = '';
-      clearTimeout(SongsEventsService.timers[0]);
-      SongsEventsService.timers = [];
       SongsEventsService.currentId = '';
       SongsEventsService.currentButton = null;
     }
@@ -89,7 +95,7 @@ export class SongsEventsService {
       SongsEventsService.currentButton.style.backgroundImage = 'url(../assets/images/play.png)';
     }
     if (SongsEventsService.timers.length) {
-      clearTimeout(SongsEventsService.timers[0]);
+      SongsEventsService.clearTimers();
     }
     SongsEventsService.audio = document.getElementById('preListen') as HTMLAudioElement;
     if (song.Id === SongsEventsService.currentId) {
@@ -105,9 +111,9 @@ export class SongsEventsService {
           script.pause();
         }
       });
-      SongsEventsService.audio.play();
+
       SongsEventsService.audio.oncanplay = function () {
-        console.log('play');
+        SongsEventsService.audio.play();
         SongsEventsService.timers.push(setTimeout(function () {
           button.style.backgroundImage = 'url(../assets/images/play.png)';
           SongsEventsService.pause();

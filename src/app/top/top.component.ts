@@ -80,5 +80,6 @@ export class TopComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     SongsEventsService.pause();
+    SongsEventsService.clearTimers();
   }
 }

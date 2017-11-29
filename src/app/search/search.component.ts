@@ -102,5 +102,6 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     SongsEventsService.pause();
+    SongsEventsService.clearTimers();
   }
 }
