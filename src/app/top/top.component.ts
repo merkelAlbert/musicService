@@ -1,8 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {SongItem} from '../shared/SongItem';
 import {SongsHttpService, SongsEventsService, SongsViewService} from '../shared/Songs/songs.services';
 import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
 import {MenuItems} from '../shared/MenuItems';
+
+declare var System: any;
 
 @Component({
   selector: 'app-music-novelties',
@@ -11,7 +13,7 @@ import {MenuItems} from '../shared/MenuItems';
   providers: [SongsHttpService]
 })
 
-export class TopComponent implements OnInit {
+export class TopComponent implements OnInit, OnDestroy {
   songItems: SongItem[] = [];
   serverRequestsUrls = ServerRequestsUrls;
   title = MenuItems.topSongs.name;
@@ -74,5 +76,9 @@ export class TopComponent implements OnInit {
 
   playPauseSong(song: SongItem, button: any) {
     this.eventsService.playPauseSong(song, button);
+  }
+
+  ngOnDestroy() {
+    SongsEventsService.pause();
   }
 }

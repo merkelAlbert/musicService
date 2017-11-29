@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {SongItem} from '../shared/SongItem';
 import {SongsHttpService, SongsEventsService, SongsViewService} from '../shared/Songs/songs.services';
 import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
 import {FindedSongs} from '../shared/Songs';
 import {ServerResponse} from '../shared/ServerResponse';
+
+declare var System: any;
 
 @Component({
   selector: 'app-music-search',
@@ -12,7 +14,7 @@ import {ServerResponse} from '../shared/ServerResponse';
   providers: [SongsHttpService]
 })
 
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
   songItems = null;
   serverRequestsUrls = ServerRequestsUrls;
   title = 'Найденные песни';
@@ -96,5 +98,9 @@ export class SearchComponent implements OnInit {
 
   playPauseSong(song: SongItem, button: any) {
     this.eventsService.playPauseSong(song, button);
+  }
+
+  ngOnDestroy() {
+    SongsEventsService.pause();
   }
 }

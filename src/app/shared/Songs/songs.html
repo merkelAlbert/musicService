@@ -2,8 +2,10 @@
   <audio id="preListen"></audio>
   <div *ngIf="isLoaded() && !isEmpty();" class="content">
     <h1 class="colored">{{title}}</h1>
-    <button class="material songs-button block" title="Добавить все" id="selectAll" (click)="selectAll()"></button>
-    <button class="material songs-button block" title="Удалить все" id="cancelAll" (click)="cancelAll()"></button>
+    <div class="buttons">
+      <button class="material songs-button block" title="Добавить все" id="selectAll" (click)="selectAll()"></button>
+      <button class="material songs-button block" title="Удалить отмеченные" id="cancelAll" (click)="cancelAll()"></button>
+    </div>
     <div *ngFor="let item of songItems; let i=index;" class="songs-item-container material">
       <div class="songs-play-container">
         <a class="icon play material" title="Предпрослушать" (click)="playPauseSong(item, button)" #button>
@@ -17,13 +19,6 @@
           <!--<p>Жанр: <span class="bold">{{item.Genre}}</span></p>-->
         </div>
       </div>
-      <!--<div class="info">-->
-      <!--<p>Битрейт: <span class="bold">{{item.Bitrate}}</span></p>-->
-      <!--<p>Длительность: <span class="bold">{{item.FormattedDuration}}</span></p>-->
-      <!--<p>Размер: <span class="bold">{{item.Size}}</span></p>-->
-      <!--<p>Дата загрузки: <span class="bold">{{item.UploadDate}}</span></p>-->
-      <!--<p>Число загрузок: <span class="bold">{{item.CountOfDownloads}}</span></p>-->
-      <!--</div>-->
       <div class="add-download-buttons">
         <a class="icon download material" href="{{serverRequestsUrls.Download+item.Id}}" download>
         </a>
@@ -38,6 +33,6 @@
     </div>
   </div>
   <div *ngIf="isLoaded() && isEmpty();">
-    Не найдено, братан
+    По вашему запросу ничего не найдено
   </div>
 </div>

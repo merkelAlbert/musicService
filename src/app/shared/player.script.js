@@ -5,7 +5,7 @@ var preloaded = false
 var passed = document.getElementById('passed')
 var slider = document.getElementById('slider')
 var overall = document.getElementById('overall')
-
+export var isPlayed = false
 passed.style.fontFamily = 'inherit'
 overall.style.fontFamily = 'inherit'
 
@@ -113,19 +113,25 @@ window.addEventListener('load', initTracks)
 //   play();
 // })
 
+document.getElementById('playpause').addEventListener('click', function () {
+  if (tracks.length) {
+    isPlayed = !isPlayed
+  }
+})
+
 export function pause () {
   audio.pause()
   $('#playpause').addClass('fa-play').removeClass('fa-pause')
 }
 
-export function play() {
+export function play () {
   audio.play()
   $('#playpause').removeClass('fa-play').addClass('fa-pause').removeClass('loading')
   var index = tracks.indexOf(audio.src)
   $('#title').text($($('#playlist a')[index]).text())
 }
 
-function playPause () {
+export function playPause () {
   if (audio.src) {
     if (audio.paused) {
       play()

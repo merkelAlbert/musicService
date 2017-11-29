@@ -44,21 +44,26 @@ export class SongsHttpService {
 export class SongsEventsService {
   static currentButton: any;
   static currentId = '';
-  static timer = null;
-
+  static timers = [];
+  static audio = null;
   song = new Subject<SongItem>();
   songStream = this.song.asObservable();
 
-  static pause(audio: HTMLAudioElement) {
-    audio.pause();
+  static pause() {
+    if (SongsEventsService.audio) {
+      SongsEventsService.audio.pause();
+      SongsEventsService.audio.removeAttribute('src');
+      SongsEventsService.currentId = '';
+      clearTimeout(SongsEventsService.timers[0]);
+      SongsEventsService.timers = [];
+      SongsEventsService.currentId = '';
+      SongsEventsService.currentButton = null;
+    }
     System.import('../player.script.js').then(script => {
-      script.play();
+      if (script.isPlayed) {
+        script.play();
+      }
     });
-    audio.removeAttribute('src');
-    SongsEventsService.currentId = '';
-    SongsEventsService.timer = null;
-    SongsEventsService.currentId = '';
-    SongsEventsService.currentButton = null;
   }
 
   add(song: SongItem) {
@@ -83,27 +88,31 @@ export class SongsEventsService {
     if (SongsEventsService.currentButton) {
       SongsEventsService.currentButton.style.backgroundImage = 'url(../assets/images/play.png)';
     }
-    const audio = document.getElementById('preListen') as HTMLAudioElement;
-    if (SongsEventsService.timer !== null) {
-      clearTimeout(SongsEventsService.timer);
+    if (SongsEventsService.timers.length) {
+      clearTimeout(SongsEventsService.timers[0]);
     }
+    SongsEventsService.audio = document.getElementById('preListen') as HTMLAudioElement;
     if (song.Id === SongsEventsService.currentId) {
-      SongsEventsService.pause(audio);
+      SongsEventsService.pause();
     } else {
       button.style.backgroundImage = 'url(../assets/images/pause.png)';
-      audio.src = ServerRequestsUrls.Download + song.Id;
-      audio.currentTime = song.Duration / 3;
+      SongsEventsService.audio.src = ServerRequestsUrls.Listen + song.Id;
+      SongsEventsService.audio.currentTime = song.Duration / 3;
       SongsEventsService.currentId = song.Id;
       SongsEventsService.currentButton = button;
       System.import('../player.script.js').then(script => {
-        script.pause();
+        if (script.isPlayed) {
+          script.pause();
+        }
       });
-      audio.play();
-
-      SongsEventsService.timer = setTimeout(function () {
-        button.style.backgroundImage = 'url(../assets/images/play.png)';
-        SongsEventsService.pause(audio);
-      }, 10000);
+      SongsEventsService.audio.play();
+      SongsEventsService.audio.oncanplay = function () {
+        console.log('play');
+        SongsEventsService.timers.push(setTimeout(function () {
+          button.style.backgroundImage = 'url(../assets/images/play.png)';
+          SongsEventsService.pause();
+        }, 10000));
+      };
     }
   }
 }

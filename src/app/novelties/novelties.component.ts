@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {SongItem} from '../shared/SongItem';
 import {SongsHttpService, SongsEventsService, SongsViewService} from '../shared/Songs/songs.services';
 import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
 import {MenuItems} from '../shared/MenuItems';
-import {DeletedSongs, SongsInPlayer} from '../shared/Songs';
+
+declare var System: any;
 
 @Component({
   selector: 'app-music-novelties',
@@ -12,7 +13,7 @@ import {DeletedSongs, SongsInPlayer} from '../shared/Songs';
   providers: [SongsHttpService]
 })
 
-export class NoveltiesComponent implements OnInit {
+export class NoveltiesComponent implements OnInit, OnDestroy {
   songItems: SongItem[] = [];
   serverRequestsUrls = ServerRequestsUrls;
   title = MenuItems.novelties.name;
@@ -76,5 +77,9 @@ export class NoveltiesComponent implements OnInit {
 
   playPauseSong(song: SongItem, button: any) {
     this.eventsService.playPauseSong(song, button);
+  }
+
+  ngOnDestroy() {
+    SongsEventsService.pause();
   }
 }

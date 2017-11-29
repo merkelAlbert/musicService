@@ -24,7 +24,7 @@
       </div>
     </div>
     <ol id="playlist" class="material">
-      <li *ngFor="let song of songs; let i=index;"><a class="track" href="{{serverRequestsUrls.Download}}{{song.Id}}">{{i+1}}.
+      <li *ngFor="let song of songs; let i=index;"><a class="track" href="{{serverRequestsUrls.Listen}}{{song.Id}}">{{i+1}}.
         {{song.Artist}} -
         {{song.Title}}</a>
         <div class="time">{{song.FormattedDuration}}</div>
