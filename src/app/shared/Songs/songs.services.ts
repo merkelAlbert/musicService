@@ -58,7 +58,6 @@ export class SongsEventsService {
 
   static pause() {
     if (SongsEventsService.audio) {
-      console.log('pause');
       SongsEventsService.audio.pause();
       SongsEventsService.audio.removeAttribute('src');
       SongsEventsService.currentId = '';
@@ -111,7 +110,7 @@ export class SongsEventsService {
           script.pause();
         }
       });
-
+      SongsEventsService.audio.load();
       SongsEventsService.audio.oncanplay = function () {
         SongsEventsService.audio.play();
         SongsEventsService.timers.push(setTimeout(function () {

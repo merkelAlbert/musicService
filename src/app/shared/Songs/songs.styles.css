@@ -1,11 +1,11 @@
 .songs-item-container {
   margin: 10px auto;
   display: flex;
-  width: 100%;
   max-height: 40px;
-  padding: 5px;
+  padding: 5px 10px;
+  justify-content: space-between;
+  width: 95%;
 }
-
 
 .songs-item {
   margin: auto 0;
@@ -14,19 +14,36 @@
 .play {
   background-image: url("../../../assets/images/play.png");
   background-size: 35px;
+  margin: auto 0;
 }
 
 .info-container {
-  width: 70%;
+  width: 80%;
   display: inline-flex;
   margin: auto 5px;
 }
 
 .info {
-  width: inherit;
+  width: 45%;
   margin: auto 0px;
   font-size: 14px;
+  margin-right: 15px;
+}
 
+.service-info {
+  width: 55%;
+  display: flex;
+  margin: auto 0px;
+  font-size: 14px;
+  justify-content: center;
+}
+
+.service-info p {
+  width: 20%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
 }
 
 .info p {
@@ -43,10 +60,11 @@
 
 .add {
   background-image: url("../../../assets/images/add.png");
+  margin-right: 0;
 }
 
 .add-download-buttons {
-  flex: 1;
+  width: 100px;
   display: flex;
   justify-content: flex-end;
 }
@@ -54,6 +72,7 @@
 .songs-play-container {
   display: inline-flex;
   margin: auto 0px;
+  width: 35px;
 }
 
 .title {
@@ -63,6 +82,10 @@
 
 .artist {
   opacity: 0.5;
+}
+
+.service {
+  opacity: 0.3;
 }
 
 .songs-button {
@@ -82,10 +105,6 @@
   display: none;
 }
 
-.content {
-  width: 90%;
-}
-
 .songs-button {
   background-size: 50px;
   height: 50px;
@@ -98,6 +117,7 @@
   display: inline-flex;
   justify-content: space-around;
 }
+
 #selectAll {
   background-image: url('../../../assets/images/addAll.png');
 }

@@ -1,6 +1,6 @@
 <div class="content-container material" id="songs-container">
-  <audio id="preListen"></audio>
-  <div *ngIf="isLoaded() && !isEmpty();" class="content">
+  <div *ngIf="isLoaded() && !isEmpty();">
+    <audio id="preListen"></audio>
     <h1 class="colored">{{title}}</h1>
     <div class="buttons">
       <button class="material songs-button block" title="Добавить все" id="selectAll" (click)="selectAll()"></button>
@@ -11,12 +11,17 @@
         <a class="icon play material" title="Предпрослушать" (click)="playPauseSong(item, button)" #button>
         </a>
       </div>
-      <div class="songs-item info-container">
+      <div class="info-container">
         <div class="info">
           <p class="title">{{item.Title}}</p>
           <p class="artist">{{item.Artist}}</p>
-          <!--<p>Название: <span class="bold colored">{{item.Title}}</span></p>-->
-          <!--<p>Жанр: <span class="bold">{{item.Genre}}</span></p>-->
+        </div>
+        <div class="service-info">
+          <p class="service">{{item.UploadDate}}</p>
+          <p class="service">{{item.FormattedDuration}}</p>
+          <p class="service">{{item.Genre}}</p>
+          <p class="service">{{item.Bitrate}}</p>
+          <p class="service">{{item.Size}}</p>
         </div>
       </div>
       <div class="add-download-buttons">
