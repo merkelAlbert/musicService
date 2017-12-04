@@ -114,7 +114,7 @@ window.addEventListener('load', initTracks)
 // })
 
 document.getElementById('playpause').addEventListener('click', function () {
-  if (tracks.length) {
+  if (audio.paused || audio.played) {
     isPlayed = !isPlayed
   }
 })

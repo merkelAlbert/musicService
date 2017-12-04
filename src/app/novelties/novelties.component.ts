@@ -1,16 +1,18 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {SongItem} from '../shared/SongItem';
-import {SongsHttpService, SongsEventsService, SongsViewService} from '../shared/Songs/songs.services';
+import {SongsHttpService, SongsEventsService, SongsViewService} from '../shared/songs/songs.services';
 import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
 import {MenuItems} from '../shared/MenuItems';
-
-declare var System: any;
+import {SongsInPlayer} from '../shared/Lists';
+import {Subscription} from 'rxjs/Subscription';
+import {PlaylistsHttpService} from '../playlists/playlists.service';
+import {MenuEventService} from '../menu/menu.service';
 
 @Component({
   selector: 'app-music-novelties',
-  templateUrl: '../shared/Songs/songs.html',
-  styleUrls: ['../shared/Songs/songs.styles.css'],
-  providers: [SongsHttpService]
+  templateUrl: '../shared/songs/songs.html',
+  styleUrls: ['../shared/songs/songs.styles.css'],
+  providers: [SongsHttpService, PlaylistsHttpService, MenuEventService]
 })
 
 export class NoveltiesComponent implements OnInit, OnDestroy {
@@ -18,10 +20,12 @@ export class NoveltiesComponent implements OnInit, OnDestroy {
   serverRequestsUrls = ServerRequestsUrls;
   title = MenuItems.novelties.name;
   observer: MutationObserver;
-  isReceived: boolean[];
+  loaded = false;
+  subscription: Subscription;
 
   constructor(private httpService: SongsHttpService, private eventsService: SongsEventsService,
-              private viewService: SongsViewService) {
+              private viewService: SongsViewService, private playlistsHttpService: PlaylistsHttpService,
+              private menuEventService: MenuEventService) {
   }
 
 
@@ -30,6 +34,7 @@ export class NoveltiesComponent implements OnInit, OnDestroy {
       this.eventsService.add(song);
       this.viewService.add(element);
     }
+    this.menuEventService.toggleButton(document.getElementById('markedSongsItem'), SongsInPlayer.list);
   }
 
 
@@ -46,9 +51,38 @@ export class NoveltiesComponent implements OnInit, OnDestroy {
     }
   }
 
+  saveSongs() {
+    if (SongsInPlayer.list.length > 1) {
+      this.httpService.saveSongs(ServerRequestsUrls.DownloadSongs, SongsInPlayer.list);
+      this.subscription = this.httpService.idStream.subscribe(value => {
+        if (value) {
+          this.eventsService.downloadSongs(value);
+        }
+      });
+    }
+  }
+
+  showSavingForm() {
+    if (SongsInPlayer.list.length > 1) {
+      document.getElementById('addPlaylistForm').style.display = 'flex';
+    }
+  }
+
+  hideSavingForm() {
+    document.getElementById('addPlaylistForm').style.display = 'none';
+  }
+
+  addPlaylist(form: any) {
+    if (form.value.text) {
+      this.playlistsHttpService.addPlaylist(ServerRequestsUrls.AddPlaylist, form.value.text, SongsInPlayer.list);
+    }
+  }
+
   cancelAll() {
     this.eventsService.cancelAll(this.songItems);
+    this.hideSavingForm();
     this.check();
+    this.menuEventService.toggleButton(document.getElementById('markedSongsItem'), SongsInPlayer.list);
   }
 
   ngOnInit() {
@@ -61,10 +95,12 @@ export class NoveltiesComponent implements OnInit, OnDestroy {
     const config = {attributes: true, childList: true, characterData: true};
     this.observer.observe(elRef, config);
 
-    const response = this.httpService.getData(ServerRequestsUrls.Novelties);
-
-    this.songItems = response.songs;
-    this.isReceived = response.isSuccessfully;
+    this.songItems = this.httpService.getData(ServerRequestsUrls.Novelties);
+    this.subscription = this.httpService.isSuccessStream.subscribe(value => {
+      if (value != null) {
+        this.loaded = value;
+      }
+    });
   }
 
   isEmpty(): boolean {
@@ -72,7 +108,7 @@ export class NoveltiesComponent implements OnInit, OnDestroy {
   }
 
   isLoaded(): boolean {
-    return this.isReceived[0];
+    return this.loaded;
   }
 
   playPauseSong(song: SongItem, button: any) {

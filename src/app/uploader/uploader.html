@@ -1,13 +1,10 @@
 <div class="content-container material">
-  <form #uploadForm="ngForm" id="uploaderForm" (ngSubmit)="onSend()">
-    <div *ngIf="isCompleted(); else loading">
-      <input type="file" name="file" id="file" #file>
-      <input type="submit"/>
+  <form #uploadForm="ngForm" id="uploaderForm" (ngSubmit)="onSend()" class="upload-form">
+    <div class="fileUploader">
+      <input id="uploadFile" class="upload-file-name material block" disabled="disabled" />
+      <input type="button" class="upload-file-button material block" value="Выбрать"/>
+      <input type="file" class="upload" name="file" id="file" #file/>
     </div>
+    <input type="submit" class="submit-button material block" value="Загрузить"/>
   </form>
 </div>
-<ng-template align="center" #loading>
-  <div class="loading-image">
-    <img src="./assets/images/loading.gif" alt="Loading">
-  </div>
-</ng-template>

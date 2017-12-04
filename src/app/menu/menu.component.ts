@@ -1,6 +1,6 @@
 import {Component, Output, EventEmitter, OnInit} from '@angular/core';
 import {MenuItems} from '../shared/MenuItems';
-import {FindedSongs} from '../shared/Songs';
+import {FindedSongs} from '../shared/Lists';
 
 @Component({
   selector: 'app-menu',
@@ -13,11 +13,12 @@ export class MenuComponent implements OnInit {
   menuItems: Object[] = [
     MenuItems.index,
     MenuItems.novelties,
-    MenuItems.topPlaylists,
+    MenuItems.playlists,
     MenuItems.topSongs,
     MenuItems.upload
   ];
   search = MenuItems.search.url;
+  marked = MenuItems.marked.url;
   observer: MutationObserver;
   @Output() choose = new EventEmitter();
 
@@ -27,5 +28,6 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     document.getElementById('findedSongsItem').style.display = 'none';
+    document.getElementById('markedSongsItem').style.display = 'none';
   }
 }

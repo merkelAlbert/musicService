@@ -2,31 +2,33 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import {SongItem} from '../shared/SongItem';
 import {SongsHttpService, SongsEventsService, SongsViewService} from '../shared/songs/songs.services';
 import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
-import {MenuItems} from '../shared/MenuItems';
 import {SongsInPlayer} from '../shared/Lists';
 import {Subscription} from 'rxjs/Subscription';
 import {PlaylistsHttpService} from '../playlists/playlists.service';
 import {MenuEventService} from '../menu/menu.service';
 
+declare var System: any;
+
 @Component({
-  selector: 'app-music-novelties',
+  selector: 'app-music-marked',
   templateUrl: '../shared/songs/songs.html',
   styleUrls: ['../shared/songs/songs.styles.css'],
   providers: [SongsHttpService, PlaylistsHttpService, MenuEventService]
 })
-
-export class TopComponent implements OnInit, OnDestroy {
+export class MarkedComponent implements OnInit, OnDestroy {
   songItems: SongItem[] = [];
   serverRequestsUrls = ServerRequestsUrls;
-  title = MenuItems.topSongs.name;
-  observer: MutationObserver;
+  title = 'Выделенные песни';
+  loaded = true;
   subscription: Subscription;
-  loaded = false;
 
-  constructor(private httpService: SongsHttpService, private eventsService: SongsEventsService,
-              private viewService: SongsViewService, private playlistsHttpService: PlaylistsHttpService,
+  constructor(private eventsService: SongsEventsService,
+              private viewService: SongsViewService,
+              private httpService: SongsHttpService,
+              private playlistsHttpService: PlaylistsHttpService,
               private menuEventService: MenuEventService) {
   }
+
 
   onAdd(song: SongItem, element: any) {
     if (!element.style.disabled) {
@@ -51,7 +53,7 @@ export class TopComponent implements OnInit, OnDestroy {
   }
 
   saveSongs() {
-    if (SongsInPlayer.list.length > 1) {
+    if (SongsInPlayer.list.length) {
       this.httpService.saveSongs(ServerRequestsUrls.DownloadSongs, SongsInPlayer.list);
       this.subscription = this.httpService.idStream.subscribe(value => {
         if (value) {
@@ -84,22 +86,18 @@ export class TopComponent implements OnInit, OnDestroy {
     this.menuEventService.toggleButton(document.getElementById('markedSongsItem'), SongsInPlayer.list);
   }
 
+
   ngOnInit() {
     const element = this;
+    for (let i = 0; i < SongsInPlayer.list.length; i++) {
+      this.songItems[i] = SongsInPlayer.list[i];
+    }
     const elRef = document.getElementById('songs-container');
-    this.observer = new MutationObserver(mutations => {
-        element.check();
-      }
-    );
-    const config = {attributes: true, childList: true, characterData: true};
-    this.observer.observe(elRef, config);
-
-    this.songItems = this.httpService.getData(ServerRequestsUrls.Top);
-    this.subscription = this.httpService.isSuccessStream.subscribe(value => {
-      if (value != null) {
-        this.loaded = value;
-      }
+    const observer = new MutationObserver(() => {
+      element.check();
     });
+    const config = {attributes: true, childList: true, characterData: true};
+    observer.observe(elRef, config);
   }
 
   isEmpty(): boolean {

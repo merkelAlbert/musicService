@@ -1,15 +1,54 @@
-.upload_file_container {
-  width: 100px;
-  height: 40px;
+.fileUploader {
   position: relative;
-  background: red;
+  overflow: hidden;
+  padding: 10px;
 }
 
-.upload_file_container input {
-  width: 100px;
-  height: 40px;
+.fileUploader input.upload {
   position: absolute;
-  left: 0;
   top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  height: 30px;
+  line-height: 30px;
   cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+
+.upload-file-name {
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px;
+  background: white;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 16px;
+  margin-right: 10px;
+  outline: none;
+}
+
+.upload-file-button {
+  padding:0 10px;
+  height: 32px;
+  line-height: 30px;
+  background: #0f78a9;
+  color: white;
+  font-size: 16px;
+  outline: none;
+}
+
+.upload-form {
+  text-align: center;
+}
+
+.submit-button {
+  cursor: pointer;
+  margin-top: 50px;
+  height: 50px;
+  color: white;
+  background: #0f78a9;
+  outline: none;
+  width: 100px;
+  padding: 10px;
 }

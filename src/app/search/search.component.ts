@@ -1,28 +1,35 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {SongItem} from '../shared/SongItem';
-import {SongsHttpService, SongsEventsService, SongsViewService} from '../shared/Songs/songs.services';
+import {SongsHttpService, SongsEventsService, SongsViewService} from '../shared/songs/songs.services';
 import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
-import {FindedSongs} from '../shared/Songs';
-import {ServerResponse} from '../shared/ServerResponse';
+import {FindedSongs, SongsInPlayer} from '../shared/Lists';
+import {CookieService} from 'angular2-cookie/core';
+import {Subscription} from 'rxjs/Subscription';
+import {PlaylistsHttpService} from '../playlists/playlists.service';
+import {MenuEventService} from '../menu/menu.service';
 
 declare var System: any;
 
 @Component({
   selector: 'app-music-search',
-  templateUrl: '../shared/Songs/songs.html',
-  styleUrls: ['../shared/Songs/songs.styles.css'],
-  providers: [SongsHttpService]
+  templateUrl: '../shared/songs/songs.html',
+  styleUrls: ['../shared/songs/songs.styles.css'],
+  providers: [SongsHttpService, PlaylistsHttpService, MenuEventService]
 })
 
 export class SearchComponent implements OnInit, OnDestroy {
   songItems = null;
   serverRequestsUrls = ServerRequestsUrls;
   title = 'Найденные песни';
-  isReceived: boolean[];
-  response: ServerResponse = null;
+  loaded = false;
+  subscription: Subscription;
 
   constructor(private eventsService: SongsEventsService,
-              private viewService: SongsViewService, private httpService: SongsHttpService) {
+              private viewService: SongsViewService,
+              private httpService: SongsHttpService,
+              private playlistsHttpService: PlaylistsHttpService,
+              private cookieService: CookieService,
+              private menuEventService: MenuEventService) {
   }
 
 
@@ -31,6 +38,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.eventsService.add(song);
       this.viewService.add(element);
     }
+    this.menuEventService.toggleButton(document.getElementById('markedSongsItem'), SongsInPlayer.list);
   }
 
 
@@ -47,17 +55,51 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
 
+  saveSongs() {
+    if (SongsInPlayer.list.length) {
+      this.httpService.saveSongs(ServerRequestsUrls.DownloadSongs, SongsInPlayer.list);
+      // this.subscription = this.httpService.idStream.subscribe(value => {
+      //   if (value) {
+      //     this.eventsService.downloadSongs(value);
+      //   }
+      // });
+    }
+  }
+
+  addPlaylist(form: any) {
+    if (form.value.text) {
+      this.playlistsHttpService.addPlaylist(ServerRequestsUrls.AddPlaylist, form.value.text, SongsInPlayer.list);
+    }
+  }
+
+  showSavingForm() {
+    if (SongsInPlayer.list.length > 1) {
+      document.getElementById('addPlaylistForm').style.display = 'flex';
+    }
+  }
+
+  hideSavingForm() {
+    document.getElementById('addPlaylistForm').style.display = 'none';
+  }
+
   cancelAll() {
     this.eventsService.cancelAll(this.songItems);
+    this.hideSavingForm();
     this.check();
+    this.menuEventService.toggleButton(document.getElementById('markedSongsItem'), SongsInPlayer.list);
   }
 
   getSongs() {
-    this.response = this.httpService.getData(ServerRequestsUrls.Search
+    const response = this.httpService.getData(ServerRequestsUrls.Search
       + (document.getElementById('text') as HTMLTextAreaElement).value);
-    FindedSongs.list = this.response.songs;
-    this.isReceived = this.response.isSuccessfully;
-    this.songItems = this.response.songs;
+
+    this.subscription = this.httpService.isSuccessStream.subscribe(value => {
+      if (value != null) {
+        this.loaded = value;
+      }
+    });
+    FindedSongs.list = response;
+    this.songItems = response;
   }
 
 
@@ -65,6 +107,12 @@ export class SearchComponent implements OnInit, OnDestroy {
     const element = this;
     const elRef = document.getElementById('songs-container');
     const observer = new MutationObserver(() => {
+        const temp = [];
+        for (let i = 0; i < FindedSongs.list.length; i++) {
+          temp.push(FindedSongs.list[i].Id);
+        }
+        element.cookieService.putObject(FindedSongs.toString(), temp);
+        this.menuEventService.toggleButton(document.getElementById('findedSongsItem'), FindedSongs.list);
         element.check();
       }
     );
@@ -77,23 +125,13 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.getSongs();
   }
 
-  toggleFindedButton() {
-    if (FindedSongs.list.length > 0) {
-      document.getElementById('findedSongsItem').style.display = 'block';
-    } else {
-      document.getElementById('findedSongsItem').style.display = 'none';
-    }
-  }
-
   isEmpty(): boolean {
-    console.log(this.songItems.length);
     return this.songItems.length === 0 ? true : false;
   }
 
   isLoaded(): boolean {
-    console.log(this.isReceived[0]);
-    this.toggleFindedButton();
-    return this.isReceived[0];
+    this.menuEventService.toggleButton(document.getElementById('findedSongsItem'), FindedSongs.list);
+    return this.loaded;
   }
 
   playPauseSong(song: SongItem, button: any) {

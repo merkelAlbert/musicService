@@ -10,11 +10,9 @@
     <!--<button class="header-menu-player-button material" (click)="playPauseSong()">plpa</button>-->
     <!--</li>-->
     <li class="header-menu-item">
-      <form class="search-form" id="search-form" #form="ngForm">
-        <input type="text" name="text" id="text" class="search-input material block" ngModel>
-        <button type="submit" class="submit material block" [disabled]="!form.valid"
-                routerLink='{{search}}'>{{title}}
-        </button>
+      <form class="text-button-form" id="search-form" #form="ngForm">
+        <input type="text" name="text" id="text" class="text-of-form material block" ngModel>
+        <button type="submit" class="submit material block" routerLink='{{search}}'>{{title}}</button>
       </form>
     </li>
   </ul>

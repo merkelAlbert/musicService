@@ -13,6 +13,7 @@ html, body {
 .material {
   border: 1px solid rgba(0, 0, 0, 0.16);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25), 0 2px 2px rgba(0, 0, 0, 0.22);
+  outline: none;
 }
 
 .material:hover {
@@ -43,8 +44,47 @@ html, body {
 
 .content-container {
   margin: auto;
+  display: flex;
   background-color: white;
   min-height: 100vh;
+  justify-content: center;
   padding: 20px;
   width: 960px;
 }
+
+
+.page-title {
+  color: #0f78a9;
+}
+
+.text-button-form {
+  display: flex;
+  padding: 0;
+  margin: auto;
+  width: 100%;
+}
+
+.text-of-form {
+  width: 80%;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px;
+  background: white;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 16px;
+  margin-right: 10px;
+  outline: none;
+}
+
+.submit {
+  flex: 1;
+  padding: 0 10px;
+  height: 32px;
+  line-height: 30px;
+  background: white;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 16px;
+  outline: none;
+}
+
+

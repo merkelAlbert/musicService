@@ -6,4 +6,7 @@ export class ServerRequestsUrls {
   public static Top = ServerRequestsUrls.Url + 'getMetadataOfPopularSongs';
   public static Add = ServerRequestsUrls.Url + 'addSong';
   public static Search = ServerRequestsUrls.Url + 'searchSongs?searchString=';
+  public static SearchPlaylists = ServerRequestsUrls.Url + 'searchPlaylists?searchString=';
+  public static AddPlaylist = ServerRequestsUrls.Url + 'addPlaylist';
+  public static DownloadSongs = ServerRequestsUrls.Url + 'getSongsInZip';
 }

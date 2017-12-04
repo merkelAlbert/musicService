@@ -4,7 +4,7 @@
   max-height: 40px;
   padding: 5px 10px;
   justify-content: space-between;
-  width: 95%;
+  width: 90%;
 }
 
 .songs-item {
@@ -21,10 +21,11 @@
   width: 80%;
   display: inline-flex;
   margin: auto 5px;
+  justify-content: space-between;
 }
 
 .info {
-  width: 45%;
+  width: 40%;
   margin: auto 0px;
   font-size: 14px;
   margin-right: 15px;
@@ -44,6 +45,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   text-align: center;
+  margin: 0;
 }
 
 .info p {
@@ -51,6 +53,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  margin: 0;
 }
 
 .download {
@@ -59,7 +62,7 @@
 }
 
 .add {
-  background-image: url("../../../assets/images/add.png");
+  background-image: url("../../../assets/images/add2.png");
   margin-right: 0;
 }
 
@@ -101,15 +104,22 @@
   cursor: pointer;
 }
 
+.songs-content {
+  width: 100%;
+}
+
 #preListen {
   display: none;
 }
 
 .songs-button {
   background-size: 50px;
+  background-position: center center;
+  background-repeat: no-repeat;
   height: 50px;
   width: 50px;
   margin: 0 20px;
+  border: none;
 }
 
 .buttons {
@@ -124,4 +134,21 @@
 
 #cancelAll {
   background-image: url('../../../assets/images/cancelAll.png');
+}
+
+#saveSongs {
+  background-image: url('../../../assets/images/saveSongs.png');
+}
+
+#addPlayList {
+  background-image: url('../../../assets/images/addPlaylist.png');
+}
+
+#addPlaylistForm{
+  display: none;
+}
+
+.text-button-form {
+  width: 40%;
+  margin: 20px auto;
 }

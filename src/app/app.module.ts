@@ -10,16 +10,19 @@ import {UploaderComponent} from './uploader/uploader.component';
 import {NoveltiesComponent} from './novelties/novelties.component';
 import {HttpClientModule} from '@angular/common/http';
 import {TopComponent} from './top/top.component';
-import {SongsEventsService, SongsViewService} from './shared/Songs/songs.services';
+import {SongsEventsService, SongsViewService} from './shared/songs/songs.services';
 import {HeaderComponent} from './header/header.component';
 import {SearchComponent} from './search/search.component';
+import {CookieOptions, CookieService} from 'angular2-cookie/core';
+import {PlaylistsComponent} from './playlists/playlists.component';
+import {MarkedComponent} from './marked/marked.component';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, RouterModule, AppRoutingModule, HttpClientModule],
   declarations: [MusicAppComponent, PlayerComponent, MenuComponent, UploaderComponent,
-    NoveltiesComponent, TopComponent, HeaderComponent, SearchComponent],
+    NoveltiesComponent, TopComponent, HeaderComponent, SearchComponent, PlaylistsComponent, MarkedComponent],
   bootstrap: [MusicAppComponent],
-  providers: [SongsEventsService, SongsViewService]
+  providers: [SongsEventsService, SongsViewService, CookieService, { provide: CookieOptions, useValue: {} }]
 })
 export class AppModule {
 }

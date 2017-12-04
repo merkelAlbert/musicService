@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {MenuItems} from '../shared/MenuItems';
-import {SongsHttpService} from '../shared/Songs/songs.services';
+import {SongsHttpService} from '../shared/songs/songs.services';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 declare var System: any;

@@ -1,4 +1,4 @@
-import {Component, ViewChild, ElementRef} from '@angular/core';
+import {Component, ViewChild, ElementRef, AfterContentInit} from '@angular/core';
 import {UploaderHttpService} from './uploader.service';
 
 @Component({
@@ -7,7 +7,7 @@ import {UploaderHttpService} from './uploader.service';
   styleUrls: ['./uploader.styles.css'],
   providers: [UploaderHttpService]
 })
-export class UploaderComponent {
+export class UploaderComponent implements AfterContentInit {
 
   isLoaded = true;
 
@@ -24,7 +24,10 @@ export class UploaderComponent {
     this.isLoaded = true;
   }
 
-  isCompleted(): boolean {
-    return this.isLoaded;
+  ngAfterContentInit() {
+    (document.getElementById('file')as HTMLInputElement).onchange = function () {
+      (document.getElementById('uploadFile') as HTMLInputElement).value =
+        (this as HTMLInputElement).value.replace('C:\\fakepath\\', '');
+    };
   }
 }

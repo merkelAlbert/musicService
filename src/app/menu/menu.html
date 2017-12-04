@@ -5,6 +5,9 @@
           routerLink="{{menuItem.url}}" (click)="onChoose()">
         {{menuItem.name}}
       </li>
+      <li class="main-menu-list-item" routerLink="{{marked}}" (click)="onChoose()" id="markedSongsItem">
+        Выделенные песни
+      </li>
       <li class="main-menu-list-item" routerLink="{{search}}" (click)="onChoose()" id="findedSongsItem">
         Найденные песни
       </li>

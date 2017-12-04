@@ -1,27 +1,28 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Subject} from 'rxjs/Subject';
 import {ResponseHandler} from '../ResponseHandler';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/retry';
 import {SongItem} from '../SongItem';
-import {DeletedSongs, SongsInPlayer} from '../Songs';
+import {DeletedSongs, SongsInPlayer} from '../Lists';
 import {SongsArrayUtil} from '../SongsArrayUtil';
 import {ServerRequestsUrls} from '../ServerRequestsUrls';
-import {ServerResponse} from '../ServerResponse';
 
 declare var System: any;
 
 @Injectable()
 export class SongsHttpService {
-
+  id = new Subject<string>();
+  idStream = this.id.asObservable();
+  isSuccess = new Subject<boolean>();
+  isSuccessStream = this.isSuccess.asObservable();
   constructor(private http: HttpClient) {
   }
 
-  getData(url: string): ServerResponse {
+  getData(url: string): SongItem [] {
     const songs = [];
-    const isSuccessfully = [];
     this.http.get(url).retry(5).subscribe((data: any[]) => {
         if (data) {
           for (let i = 0; i < data.length; i++) {
@@ -30,13 +31,36 @@ export class SongsHttpService {
               new Date(Date.parse(data[i]['UploadDate'])), data[i]['CountOfDownload']));
           }
         }
-        isSuccessfully.push(true);
+        this.isSuccess.next(true);
       },
       error => {
-        isSuccessfully.push(false);
+        ResponseHandler.handle(error);
+        this.isSuccess.next(false);
+      });
+    return songs;
+  }
+
+  saveSongs(url: string, savedSongs: SongItem[]) {
+    const playlistIds: string[] = [];
+    for (let i = 0; i < savedSongs.length; i++) {
+      playlistIds[i] = savedSongs[i].Id;
+    }
+
+    const body = new FormData();
+    // body.append('name', name);
+    body.append('ids', JSON.stringify(playlistIds));
+
+    const myHeaders = new HttpHeaders();
+    myHeaders.append('Content-Type', 'text/html');
+
+    this.http.post(url, body, {
+      headers: myHeaders,
+    }).subscribe((res: Response) => {
+        this.id.next(res.toString());
+      },
+      error => {
         ResponseHandler.handle(error);
       });
-    return new ServerResponse(songs, isSuccessfully);
   }
 }
 
@@ -120,6 +144,17 @@ export class SongsEventsService {
       };
     }
   }
+
+  downloadSongs(text) {
+    const element = document.createElement('a');
+    element.setAttribute('href', ServerRequestsUrls.DownloadSongs + text);
+    // element.setAttribute('download');
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+
 }
 
 @Injectable()
