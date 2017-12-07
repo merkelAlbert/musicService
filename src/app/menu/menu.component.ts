@@ -1,6 +1,7 @@
 import {Component, Output, EventEmitter, OnInit} from '@angular/core';
 import {MenuItems} from '../shared/MenuItems';
-import {FindedSongs} from '../shared/Lists';
+import {FindedSongs, SongsInPlayer} from '../shared/Lists';
+import {AppHttpService} from '../app.services';
 
 @Component({
   selector: 'app-menu',
@@ -22,12 +23,23 @@ export class MenuComponent implements OnInit {
   observer: MutationObserver;
   @Output() choose = new EventEmitter();
 
+  constructor(private httpService: AppHttpService) {
+  }
+
   onChoose() {
     this.choose.emit();
   }
 
   ngOnInit() {
-    document.getElementById('findedSongsItem').style.display = 'none';
+    this.httpService.isSuccessStream.subscribe(value => {
+      if (value === true) {
+        if (SongsInPlayer.list.length) {
+          document.getElementById('markedSongsItem').style.display = 'block';
+        }
+      }
+    });
+
     document.getElementById('markedSongsItem').style.display = 'none';
+    document.getElementById('findedSongsItem').style.display = 'none';
   }
 }

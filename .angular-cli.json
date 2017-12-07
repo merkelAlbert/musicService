@@ -27,7 +27,8 @@
         "../node_modules/fastclick/lib/fastclick.js",
         "../node_modules/gsap/TweenMax.js",
         "../node_modules/css-element-queries/src/ElementQueries.js",
-        "../node_modules/css-element-queries/src/ResizeSensor.js"
+        "../node_modules/css-element-queries/src/ResizeSensor.js",
+        "../node_modules/file-saver/FileSaver.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

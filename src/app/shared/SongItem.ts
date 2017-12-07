@@ -21,7 +21,7 @@ export class SongItem {
     this._countOfDownloads = countOfDownloads;
   }
 
-  get Id(): string {
+  get id(): string {
     return this._id;
   }
 

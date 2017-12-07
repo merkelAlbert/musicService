@@ -17,7 +17,7 @@ export class PlaylistsHttpService {
   addPlaylist(url: string, name: string, songs: SongItem[]) {
     const playlistIds: string[] = [];
     for (let i = 0; i < songs.length; i++) {
-      playlistIds[i] = songs[i].Id;
+      playlistIds[i] = songs[i].id;
     }
 
     const body = new FormData();
@@ -35,7 +35,7 @@ export class PlaylistsHttpService {
       },
       error => {
         this.isSuccess.next(false);
-        ResponseHandler.handle(error);
+        ResponseHandler.handle(error.error);
       });
   }
 
@@ -43,15 +43,14 @@ export class PlaylistsHttpService {
     const playlists = [];
     this.http.get(url).retry(5).subscribe((data: any[]) => {
         if (data) {
-          console.log(data);
           for (let i = 0; i < data.length; i++) {
-            playlists.push(new PlaylistItem(data[i]['id'], data[i]['name'], data[i]['ids']));
+            playlists.push(new PlaylistItem(data[i]['id'], data[i]['Name'], data[i]['IDs']));
           }
-          this.isSuccess.next(true);
         }
+        this.isSuccess.next(true);
       },
       error => {
-        ResponseHandler.handle(error);
+        ResponseHandler.handle(error.error);
         this.isSuccess.next(false);
       });
     return playlists;

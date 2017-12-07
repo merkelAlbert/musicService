@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpEventType, HttpHeaders, HttpParams, HttpRequest} from '@angular/common/http';
 import {Subject} from 'rxjs/Subject';
 import {ResponseHandler} from '../ResponseHandler';
 import 'rxjs/add/operator/map';
@@ -9,6 +9,7 @@ import {SongItem} from '../SongItem';
 import {DeletedSongs, SongsInPlayer} from '../Lists';
 import {SongsArrayUtil} from '../SongsArrayUtil';
 import {ServerRequestsUrls} from '../ServerRequestsUrls';
+import {ResponseContentType} from '@angular/http';
 
 declare var System: any;
 
@@ -18,12 +19,13 @@ export class SongsHttpService {
   idStream = this.id.asObservable();
   isSuccess = new Subject<boolean>();
   isSuccessStream = this.isSuccess.asObservable();
+
   constructor(private http: HttpClient) {
   }
 
   getData(url: string): SongItem [] {
     const songs = [];
-    this.http.get(url).retry(5).subscribe((data: any[]) => {
+    this.http.get(url).subscribe((data: any[]) => {
         if (data) {
           for (let i = 0; i < data.length; i++) {
             songs.push(new SongItem(data[i]['id'], data[i]['Artist'], data[i]['Title'], data[i]['Genre'],
@@ -43,25 +45,26 @@ export class SongsHttpService {
   saveSongs(url: string, savedSongs: SongItem[]) {
     const playlistIds: string[] = [];
     for (let i = 0; i < savedSongs.length; i++) {
-      playlistIds[i] = savedSongs[i].Id;
+      playlistIds[i] = savedSongs[i].id;
     }
 
-    const body = new FormData();
-    // body.append('name', name);
-    body.append('ids', JSON.stringify(playlistIds));
+    const form = document.createElement('form');
+    form.setAttribute('method', 'post');
+    form.setAttribute('Content-Type', 'application/x-www-form-urlencoded');
+    form.setAttribute('action', ServerRequestsUrls.DownloadSongs);
+    form.setAttribute('style', 'display: none;');
 
-    const myHeaders = new HttpHeaders();
-    myHeaders.append('Content-Type', 'text/html');
+    const hiddenField = document.createElement('input');
+    hiddenField.setAttribute('name', 'ids');
+    hiddenField.setAttribute('value', JSON.stringify(playlistIds));
+    form.appendChild(hiddenField);
 
-    this.http.post(url, body, {
-      headers: myHeaders,
-    }).subscribe((res: Response) => {
-        this.id.next(res.toString());
-      },
-      error => {
-        ResponseHandler.handle(error);
-      });
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
   }
+
+
 }
 
 @Injectable()
@@ -72,6 +75,7 @@ export class SongsEventsService {
   static audio = null;
   song = new Subject<SongItem>();
   songStream = this.song.asObservable();
+
 
   static clearTimers() {
     for (let i = 0; i < SongsEventsService.timers.length; i++) {
@@ -121,13 +125,13 @@ export class SongsEventsService {
       SongsEventsService.clearTimers();
     }
     SongsEventsService.audio = document.getElementById('preListen') as HTMLAudioElement;
-    if (song.Id === SongsEventsService.currentId) {
+    if (song.id === SongsEventsService.currentId) {
       SongsEventsService.pause();
     } else {
       button.style.backgroundImage = 'url(../assets/images/pause.png)';
-      SongsEventsService.audio.src = ServerRequestsUrls.Listen + song.Id;
+      SongsEventsService.audio.src = ServerRequestsUrls.Listen + song.id;
       SongsEventsService.audio.currentTime = song.Duration / 3;
-      SongsEventsService.currentId = song.Id;
+      SongsEventsService.currentId = song.id;
       SongsEventsService.currentButton = button;
       System.import('../player.script.js').then(script => {
         if (script.isPlayed) {
@@ -145,16 +149,6 @@ export class SongsEventsService {
     }
   }
 
-  downloadSongs(text) {
-    const element = document.createElement('a');
-    element.setAttribute('href', ServerRequestsUrls.DownloadSongs + text);
-    // element.setAttribute('download');
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-  }
-
 }
 
 @Injectable()
@@ -164,7 +158,7 @@ export class SongsViewService {
     if (allSongs.length !== 0) {
       const allSongsButtons = document.getElementsByClassName('add');
       for (let i = 0; i < allSongs.length; i++) {
-        if (SongsArrayUtil.indexOf(SongsInPlayer.list, allSongs[i].Id) !== -1) {
+        if (SongsArrayUtil.indexOf(SongsInPlayer.list, allSongs[i].id) !== -1) {
           this.add(allSongsButtons[i] as HTMLElement);
         } else {
           this.cancel(allSongsButtons[i] as HTMLElement);

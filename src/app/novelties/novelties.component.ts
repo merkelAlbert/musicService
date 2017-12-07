@@ -7,6 +7,7 @@ import {SongsInPlayer} from '../shared/Lists';
 import {Subscription} from 'rxjs/Subscription';
 import {PlaylistsHttpService} from '../playlists/playlists.service';
 import {MenuEventService} from '../menu/menu.service';
+import {SongsArrayUtil} from '../shared/SongsArrayUtil';
 
 @Component({
   selector: 'app-music-novelties',
@@ -22,6 +23,7 @@ export class NoveltiesComponent implements OnInit, OnDestroy {
   observer: MutationObserver;
   loaded = false;
   subscription: Subscription;
+  markedSongs: SongItem[] = [];
 
   constructor(private httpService: SongsHttpService, private eventsService: SongsEventsService,
               private viewService: SongsViewService, private playlistsHttpService: PlaylistsHttpService,
@@ -33,14 +35,16 @@ export class NoveltiesComponent implements OnInit, OnDestroy {
     if (!element.style.disabled) {
       this.eventsService.add(song);
       this.viewService.add(element);
+      this.markedSongs.push(song);
     }
     this.menuEventService.toggleButton(document.getElementById('markedSongsItem'), SongsInPlayer.list);
   }
 
 
   check() {
-    if (this.songItems) {
+    if (this.songItems.length) {
       this.viewService.checkAdded(this.songItems);
+      this.markedSongs = SongsArrayUtil.getCommonArray(this.songItems, SongsInPlayer.list);
     }
   }
 
@@ -52,13 +56,9 @@ export class NoveltiesComponent implements OnInit, OnDestroy {
   }
 
   saveSongs() {
-    if (SongsInPlayer.list.length > 1) {
-      this.httpService.saveSongs(ServerRequestsUrls.DownloadSongs, SongsInPlayer.list);
-      this.subscription = this.httpService.idStream.subscribe(value => {
-        if (value) {
-          this.eventsService.downloadSongs(value);
-        }
-      });
+    if (this.markedSongs.length > 1) {
+      console.log(this.markedSongs);
+      this.httpService.saveSongs(ServerRequestsUrls.DownloadSongs, this.markedSongs);
     }
   }
 
@@ -98,6 +98,7 @@ export class NoveltiesComponent implements OnInit, OnDestroy {
     this.songItems = this.httpService.getData(ServerRequestsUrls.Novelties);
     this.subscription = this.httpService.isSuccessStream.subscribe(value => {
       if (value != null) {
+        this.markedSongs = SongsArrayUtil.getCommonArray(this.songItems, SongsInPlayer.list);
         this.loaded = value;
       }
     });

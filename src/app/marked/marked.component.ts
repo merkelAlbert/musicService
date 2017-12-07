@@ -53,13 +53,8 @@ export class MarkedComponent implements OnInit, OnDestroy {
   }
 
   saveSongs() {
-    if (SongsInPlayer.list.length) {
+    if (SongsInPlayer.list.length > 1) {
       this.httpService.saveSongs(ServerRequestsUrls.DownloadSongs, SongsInPlayer.list);
-      this.subscription = this.httpService.idStream.subscribe(value => {
-        if (value) {
-          this.eventsService.downloadSongs(value);
-        }
-      });
     }
   }
 

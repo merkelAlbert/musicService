@@ -6,3 +6,7 @@
   width: 40%;
   margin: 0;
 }
+
+.playlist-container > * {
+  margin-bottom: 30px;
+}

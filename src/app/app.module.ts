@@ -16,13 +16,16 @@ import {SearchComponent} from './search/search.component';
 import {CookieOptions, CookieService} from 'angular2-cookie/core';
 import {PlaylistsComponent} from './playlists/playlists.component';
 import {MarkedComponent} from './marked/marked.component';
+import {MatProgressBarModule} from '@angular/material';
+import {MaterialModule} from './material.module';
+import {AppHttpService} from "./app.services";
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, RouterModule, AppRoutingModule, HttpClientModule],
+  imports: [BrowserModule, FormsModule, RouterModule, AppRoutingModule, HttpClientModule, MaterialModule],
   declarations: [MusicAppComponent, PlayerComponent, MenuComponent, UploaderComponent,
     NoveltiesComponent, TopComponent, HeaderComponent, SearchComponent, PlaylistsComponent, MarkedComponent],
   bootstrap: [MusicAppComponent],
-  providers: [SongsEventsService, SongsViewService, CookieService, { provide: CookieOptions, useValue: {} }]
+  providers: [SongsEventsService, SongsViewService, CookieService, { provide: CookieOptions, useValue: {} }, AppHttpService]
 })
 export class AppModule {
 }

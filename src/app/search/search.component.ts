@@ -7,6 +7,7 @@ import {CookieService} from 'angular2-cookie/core';
 import {Subscription} from 'rxjs/Subscription';
 import {PlaylistsHttpService} from '../playlists/playlists.service';
 import {MenuEventService} from '../menu/menu.service';
+import {SongsArrayUtil} from '../shared/SongsArrayUtil';
 
 declare var System: any;
 
@@ -18,11 +19,12 @@ declare var System: any;
 })
 
 export class SearchComponent implements OnInit, OnDestroy {
-  songItems = null;
+  songItems: SongItem[] = [];
   serverRequestsUrls = ServerRequestsUrls;
   title = 'Найденные песни';
   loaded = false;
   subscription: Subscription;
+  markedSongs: SongItem[] = [];
 
   constructor(private eventsService: SongsEventsService,
               private viewService: SongsViewService,
@@ -37,6 +39,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     if (!element.style.disabled) {
       this.eventsService.add(song);
       this.viewService.add(element);
+      this.markedSongs.push(song);
     }
     this.menuEventService.toggleButton(document.getElementById('markedSongsItem'), SongsInPlayer.list);
   }
@@ -45,6 +48,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   check() {
     if (this.songItems) {
       this.viewService.checkAdded(this.songItems);
+      // this.markedSongs = SongsArrayUtil.getCommonArray(this.songItems, SongsInPlayer.list);
     }
   }
 
@@ -56,13 +60,10 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   saveSongs() {
-    if (SongsInPlayer.list.length) {
-      this.httpService.saveSongs(ServerRequestsUrls.DownloadSongs, SongsInPlayer.list);
-      // this.subscription = this.httpService.idStream.subscribe(value => {
-      //   if (value) {
-      //     this.eventsService.downloadSongs(value);
-      //   }
-      // });
+    if (this.markedSongs.length > 1) {
+      for (let i = 0; i < this.markedSongs.length; i++) {
+      }
+      // this.httpService.saveSongs(ServerRequestsUrls.DownloadSongs, this.markedSongs);
     }
   }
 
@@ -90,18 +91,25 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   getSongs() {
-    const response = this.httpService.getData(ServerRequestsUrls.Search
-      + (document.getElementById('text') as HTMLTextAreaElement).value);
-
-    this.subscription = this.httpService.isSuccessStream.subscribe(value => {
-      if (value != null) {
-        this.loaded = value;
-      }
-    });
-    FindedSongs.list = response;
-    this.songItems = response;
+    const name = (document.getElementById('text') as HTMLTextAreaElement).value;
+    if (name) {
+      this.loaded = false;
+      const response = this.httpService.getData(ServerRequestsUrls.Search
+        + name);
+      this.subscription = this.httpService.isSuccessStream.subscribe(value => {
+        if (value === true) {
+          FindedSongs.list = response;
+          this.songItems = response;
+          this.markedSongs = SongsArrayUtil.getCommonArray(this.songItems, SongsInPlayer.list);
+          this.loaded = value;
+        }
+      });
+    } else {
+      FindedSongs.list = [];
+      this.songItems = [];
+      this.loaded = true;
+    }
   }
-
 
   ngOnInit() {
     const element = this;
@@ -109,7 +117,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     const observer = new MutationObserver(() => {
         const temp = [];
         for (let i = 0; i < FindedSongs.list.length; i++) {
-          temp.push(FindedSongs.list[i].Id);
+          temp.push(FindedSongs.list[i].id);
         }
         element.cookieService.putObject(FindedSongs.toString(), temp);
         this.menuEventService.toggleButton(document.getElementById('findedSongsItem'), FindedSongs.list);

@@ -1,5 +1,5 @@
 <div class="content-container material" id="songs-container">
-  <div *ngIf="isLoaded() && !isEmpty();" class="songs-content">
+  <div *ngIf="isLoaded() && !isEmpty();" class="music-content">
     <audio id="preListen"></audio>
     <h1 class="page-title">{{title}}</h1>
     <div class="buttons">
@@ -16,7 +16,7 @@
       <button type="submit" class="submit material block">Сохранить
       </button>
     </form>
-    <div *ngFor="let item of songItems; let i=index;" class="songs-item-container material">
+    <div *ngFor="let item of songItems; let i=index;" class="music-item-container material">
       <div class="songs-play-container">
         <a class="icon play material" title="Предпрослушать" (click)="playPauseSong(item, button)" #button>
         </a>
@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="add-download-buttons">
-        <a class="icon download material" href="{{serverRequestsUrls.Download+item.Id}}" download>
+        <a class="icon download material" href="{{serverRequestsUrls.Download+item.id}}" download>
         </a>
         <a #element class="icon add material" title="Добавить в плеер/плейлист" (click)="onAdd(item, element)">
         </a>

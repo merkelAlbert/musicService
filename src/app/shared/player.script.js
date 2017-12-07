@@ -106,7 +106,6 @@ export function initTracks () {
 }
 
 // ------- ON LOAD ---------
-window.addEventListener('load', initTracks)
 
 //audio.src = tracks[0]
 // $(audio).on('canplay', function() {

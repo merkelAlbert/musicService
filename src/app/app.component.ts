@@ -1,7 +1,9 @@
 import {Component, AfterViewChecked, OnInit} from '@angular/core';
-import {AppService} from './app.services';
+import {AppHttpService, AppService} from './app.services';
 import {CookieService} from 'angular2-cookie/core';
 import {FindedSongs, SongsInPlayer} from './shared/Lists';
+import {ServerRequestsUrls} from './shared/ServerRequestsUrls';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-music',
@@ -11,19 +13,29 @@ import {FindedSongs, SongsInPlayer} from './shared/Lists';
 })
 
 export class MusicAppComponent implements OnInit, AfterViewChecked {
+  subscription: Subscription;
 
-  constructor(private service: AppService, private cookieService: CookieService) {
+  constructor(private service: AppService,
+              private cookieService: CookieService,
+              private httpService: AppHttpService) {
   }
 
   ngOnInit() {
     const inPlayer: any = this.cookieService.getObject(SongsInPlayer.toString());
     const finded: any = this.cookieService.getObject(FindedSongs.toString());
+    const ids = [];
     if (inPlayer) {
-      console.log(inPlayer.length);
       for (let i = 0; i < inPlayer.length; i++) {
-        console.log(inPlayer[i]);
+        ids[i] = inPlayer[i];
       }
+      const temp = this.httpService.getSongsByIds(ServerRequestsUrls.SongsByIds, ids);
+      this.subscription = this.httpService.isSuccessStream.subscribe(value => {
+        if (value === true) {
+          SongsInPlayer.list = temp;
+        }
+      });
     }
+
     if (finded) {
       console.log('finded');
       for (let i = 0; i < finded.length; i++) {

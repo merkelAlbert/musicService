@@ -1,6 +1,6 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css");
 @import url('https://fonts.googleapis.com/css?family=Roboto');
-
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 html, body {
   color: rgba(0, 0, 0, 0.8);
   font-family: 'Roboto', sans-serif;
@@ -87,4 +87,20 @@ html, body {
   outline: none;
 }
 
+.music-item-container {
+  margin: 10px auto;
+  display: flex;
+  max-height: 40px;
+  padding: 5px 10px;
+  justify-content: space-between;
+  width: 90%;
+}
+
+.music-item {
+  margin: auto 0;
+}
+
+.music-content {
+  width: 100%;
+}
 

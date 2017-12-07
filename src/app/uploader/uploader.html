@@ -1,10 +1,11 @@
-<div class="content-container material">
+<div class="content-container material" id="upload-content">
   <form #uploadForm="ngForm" id="uploaderForm" (ngSubmit)="onSend()" class="upload-form">
     <div class="fileUploader">
       <input id="uploadFile" class="upload-file-name material block" disabled="disabled" />
       <input type="button" class="upload-file-button material block" value="Выбрать"/>
       <input type="file" class="upload" name="file" id="file" #file/>
     </div>
+    <mat-progress-bar *ngIf="isUploading()" mode="determinate" [value]="progress"></mat-progress-bar>
     <input type="submit" class="submit-button material block" value="Загрузить"/>
   </form>
 </div>

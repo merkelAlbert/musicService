@@ -1,42 +1,44 @@
 import {Component, OnInit, ElementRef} from '@angular/core';
-import {SongsEventsService} from '../shared/songs/songs.services';
+import {SongsEventsService, SongsHttpService} from '../shared/songs/songs.services';
 import {Subscription} from 'rxjs/Subscription';
 import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
 import {DeletedSongs, SongsInPlayer} from '../shared/Lists';
 import {SongItem} from '../shared/SongItem';
 import {SongsArrayUtil} from '../shared/SongsArrayUtil';
 import {CookieService} from 'angular2-cookie/core';
-
+import {AppHttpService} from '../app.services';
 
 declare var System: any;
 
 @Component({
   selector: 'app-player',
   templateUrl: './player.html',
-  styleUrls: ['./player.styles.css']
+  styleUrls: ['./player.styles.css'],
+  providers: [SongsHttpService]
 })
 export class PlayerComponent implements OnInit {
   subscription: Subscription;
   serverRequestsUrls = ServerRequestsUrls;
   observer: MutationObserver;
-  songs = SongsInPlayer.list;
+  songs = [];
+  cookiesSubscription: Subscription;
 
-  constructor(private eventsService: SongsEventsService, private cookieService: CookieService) {
+  constructor(private eventsService: SongsEventsService,
+              private cookieService: CookieService,
+              private httpService: AppHttpService) {
   }
 
   ngOnInit() {
-    const component = this;
+    this.songs = SongsInPlayer.list;
     const elRef = document.getElementById('playlist');
     this.observer = new MutationObserver(mutations => {
-      mutations.forEach(function (mutation) {
-        const temp = [];
-        for (let i = 0; i < SongsInPlayer.list.length; i++) {
-          temp.push(SongsInPlayer.list[i].Id);
-        }
-        component.cookieService.putObject(SongsInPlayer.toString(), temp);
-        System.import('../shared/player.script.js').then(script => {
-          script.initTracks();
-        });
+      const temp = [];
+      for (let i = 0; i < SongsInPlayer.list.length; i++) {
+        temp.push(SongsInPlayer.list[i].id);
+      }
+      this.cookieService.putObject(SongsInPlayer.toString(), temp);
+      System.import('../shared/player.script.js').then(script => {
+        script.initTracks();
       });
     });
     const config = {attributes: true, childList: true, characterData: true};
@@ -50,6 +52,12 @@ export class PlayerComponent implements OnInit {
           SongsArrayUtil.delete(SongsInPlayer.list, DeletedSongs.list[i]);
         }
         DeletedSongs.list = [];
+      }
+      this.songs = SongsInPlayer.list;
+    });
+    this.cookiesSubscription = this.httpService.isSuccessStream.subscribe(value => {
+      if (value === true) {
+        this.songs = SongsInPlayer.list;
       }
     });
   }

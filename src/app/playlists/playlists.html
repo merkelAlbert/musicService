@@ -1,21 +1,24 @@
-<div class="content-container material">
+<div class="content-container material" id="playlists-container">
   <div class="playlist-container">
     <h1 class="page-title">{{title}}</h1>
     <form class="text-button-form" id="playlist-search-form" #form="ngForm" (submit)="findPlaylists(form)">
-      <input type="text" name="text" id="text" class="text-of-form material block" ngModel>
+      <input type="text" name="text" id="playlistText" class="text-of-form material block" ngModel>
       <button type="submit" class="submit material block">Найти</button>
     </form>
-  </div>
-  <div *ngIf="isLoaded() && !isEmpty();" class="songs-content">
-    <audio id="preListen"></audio>
-    <h1 class="page-title">{{title}}</h1>
-    <!--<div class="buttons">-->
+    <div *ngIf="isLoaded() && !isEmpty();" class="music-content">
+      <audio id="preListen"></audio>
+      <!--<div class="buttons">-->
       <!--<button class="material songs-button block" title="Добавить все" id="selectAll" (click)="selectAll()"></button>-->
       <!--<button class="material songs-button block" title="Удалить отмеченные" id="cancelAll"-->
-              <!--(click)="cancelAll()"></button>-->
-    <!--</div>-->
-    <div *ngFor="let playlist of playlists; let i=index;">
-      {{playlist}}
+      <!--(click)="cancelAll()"></button>-->
+      <!--</div>-->
+      <div *ngFor="let item of playlists; let i=index;" class="music-item-container material">
+        <div class="info-container">
+          <div class="info">
+            <p class="title">{{item.Title}}</p>
+          </div>
+        </div>
+      </div>
     </div>
     <div *ngIf="!isLoaded()" id="loading">
       <div class="loading-image">
