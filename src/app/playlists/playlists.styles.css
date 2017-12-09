@@ -10,6 +10,64 @@
 .playlist-container > * {
   margin-bottom: 30px;
 }
-.playlist-container div {
+
+.playlist-container :hover {
+  cursor: pointer;
+}
+
+.info-container {
+  width: 80%;
+  display: inline-flex;
+  margin: auto 5px;
+}
+
+.info {
+  width: 40%;
+  margin: auto 0px;
+  font-size: 14px;
+  margin-right: 15px;
+}
+
+.info p {
+  margin: auto 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.service-info {
+  width: 30%;
+  display: flex;
+  margin: auto 0px;
+  font-size: 14px;
+}
+
+.service-info p {
+  width: 20%;
   text-align: center;
+  margin: 0;
+}
+
+.title {
+  font-weight: bold;
+  color: #0f78a9;
+}
+
+.service {
+  opacity: 0.3;
+}
+
+.playlist-songs {
+  width: 300px;
+  position: relative;
+  left: 0;
+}
+
+.songs {
+  display: none;
+  margin-bottom: 100px;
+}
+
+.music-item-container {
+  background-color: rgba(0, 0, 0, 0.07);
 }

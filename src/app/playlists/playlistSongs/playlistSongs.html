@@ -1,0 +1,53 @@
+<div class="content-container" id="{{id}}" #content>
+  <div *ngIf="isLoaded() && !isEmpty();" class="music-content">
+    <audio id="preListen"></audio>
+    <h1 class="page-title">{{title}}</h1>
+    <div class="buttons">
+      <button class="songs-button" title="Добавить все в плеер/плейлист" id="selectAll" (click)="selectAll()"></button>
+      <button class="songs-button" title="Скачать выбранные" id="saveSongs"
+              (click)="saveSongs()"></button>
+      <button class="songs-button" title="сохранить выбранные как плейлист" id="addPlayList"
+              (click)="showSavingForm()"></button>
+      <button class="songs-button" title="Удалить отмеченные из плеера/плейлиста" id="cancelAll"
+              (click)="cancelAll()"></button>
+    </div>
+    <form class="text-button-form" id="addPlaylistForm" #form="ngForm" (submit)="addPlaylist(form)">
+      <input type="text" name="text" placeholder="Введите название плейлиста" id="text" class="text-of-form material block" ngModel>
+      <button type="submit" class="submit material block">Сохранить
+      </button>
+    </form>
+    <div *ngFor="let item of songItems; let i=index;" class="music-item-container material">
+      <div class="songs-play-container">
+        <a class="icon play material" title="Предпрослушать" (click)="playPauseSong(item, button)" #button>
+        </a>
+      </div>
+      <div class="info-container">
+        <div class="info">
+          <p class="title">{{item.Title}}</p>
+          <p class="artist">{{item.Artist}}</p>
+        </div>
+        <div class="service-info">
+          <p class="service">{{item.UploadDate}}</p>
+          <p class="service">{{item.FormattedDuration}}</p>
+          <p class="service">{{item.Genre}}</p>
+          <p class="service">{{item.Bitrate}}</p>
+          <p class="service">{{item.Size}}</p>
+        </div>
+      </div>
+      <div class="add-download-buttons">
+        <a class="icon download material" href="{{serverRequestsUrls.Download+item.id}}" download>
+        </a>
+        <a #element class="icon add material" title="Добавить в плеер/плейлист" (click)="onAdd(item, element)">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!isLoaded()" id="loading">
+    <div class="loading-image">
+      <img src="./assets/images/loading.gif" alt="Loading">
+    </div>
+  </div>
+  <div *ngIf="isLoaded() && isEmpty();">
+    По вашему запросу ничего не найдено
+  </div>
+</div>

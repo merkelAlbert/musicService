@@ -16,16 +16,21 @@ import {SearchComponent} from './search/search.component';
 import {CookieOptions, CookieService} from 'angular2-cookie/core';
 import {PlaylistsComponent} from './playlists/playlists.component';
 import {MarkedComponent} from './marked/marked.component';
-import {MatProgressBarModule} from '@angular/material';
 import {MaterialModule} from './material.module';
-import {AppHttpService} from "./app.services";
+import {AppHttpService} from './app.services';
+import {SharedModule} from './shared/shared.module';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, RouterModule, AppRoutingModule, HttpClientModule, MaterialModule],
+  imports: [BrowserModule, FormsModule, RouterModule, AppRoutingModule,
+    HttpClientModule, MaterialModule, SharedModule],
   declarations: [MusicAppComponent, PlayerComponent, MenuComponent, UploaderComponent,
-    NoveltiesComponent, TopComponent, HeaderComponent, SearchComponent, PlaylistsComponent, MarkedComponent],
+    NoveltiesComponent, TopComponent, HeaderComponent, SearchComponent,
+    PlaylistsComponent, MarkedComponent],
   bootstrap: [MusicAppComponent],
-  providers: [SongsEventsService, SongsViewService, CookieService, { provide: CookieOptions, useValue: {} }, AppHttpService]
+  providers: [SongsEventsService, SongsViewService, CookieService, {
+    provide: CookieOptions,
+    useValue: {}
+  }, AppHttpService]
 })
 export class AppModule {
 }

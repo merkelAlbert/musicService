@@ -17,7 +17,6 @@ export class PlaylistsComponent implements OnInit {
   playlists: PlaylistItem[] = [];
   loaded = false;
   subscription: Subscription;
-
   constructor(private playlistsHttpService: PlaylistsHttpService,
               private songsHttpService: SongsHttpService,
               private songsEventsService: SongsEventsService) {
@@ -33,7 +32,6 @@ export class PlaylistsComponent implements OnInit {
       this.subscription = this.playlistsHttpService.isSuccessStream.subscribe(value => {
         if (value != null) {
           this.loaded = value;
-          console.log(this.playlists);
         }
       });
     } else {
@@ -42,6 +40,15 @@ export class PlaylistsComponent implements OnInit {
     }
   }
 
+
+  showHideSongs(id: string) {
+    const songs = document.getElementById(id);
+    if (songs.style.display === 'none' || songs.style.display === '') {
+      songs.style.display = 'block';
+    } else {
+      songs.style.display = 'none';
+    }
+  }
 
   isEmpty(): boolean {
     return this.playlists.length === 0 ? true : false;

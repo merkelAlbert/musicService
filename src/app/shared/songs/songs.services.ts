@@ -173,6 +173,19 @@ export class SongsViewService {
     }
   }
 
+  checkAddedInPlaylist(id: string, songs: SongItem[]) {
+    if (songs.length !== 0) {
+      const allSongsButtons = document.getElementById(id).getElementsByClassName('add');
+      for (let i = 0; i < songs.length; i++) {
+        if (SongsArrayUtil.indexOf(SongsInPlayer.list, songs[i].id) !== -1) {
+          this.add(allSongsButtons[i] as HTMLElement);
+        } else {
+          this.cancel(allSongsButtons[i] as HTMLElement);
+        }
+      }
+    }
+  }
+
   add(button: any) {
     button.style.backgroundColor = '#98FB98';
     button.style.backgroundImage = 'url(../../../assets/images/added.png)';

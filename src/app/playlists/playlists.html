@@ -12,11 +12,21 @@
       <!--<button class="material songs-button block" title="Удалить отмеченные" id="cancelAll"-->
       <!--(click)="cancelAll()"></button>-->
       <!--</div>-->
-      <div *ngFor="let item of playlists; let i=index;" class="music-item-container material">
-        <div class="info-container">
-          <div class="info">
-            <p class="title">{{item.Title}}</p>
+      <div *ngFor="let item of playlists; let i=index;">
+        <div class="music-item-container material"
+             title="Нажмите, чтобы раскрыть/скрыть" (click)="showHideSongs(item.Id)">
+          <div class="info-container">
+            <div class="info">
+              <p class="title">{{item.Title}}</p>
+            </div>
+            <div class="service-info">
+              <p class="service">fdfgdkflfdgldf</p>
+            </div>
           </div>
+        </div>
+        <div class="songs" id="{{item.Id}}">
+          <app-music-playlist-songs class="playlist-songs">
+          </app-music-playlist-songs>
         </div>
       </div>
     </div>

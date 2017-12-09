@@ -1,29 +1,34 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {SongItem} from '../shared/SongItem';
-import {SongsHttpService, SongsEventsService, SongsViewService} from '../shared/songs/songs.services';
-import {ServerRequestsUrls} from '../shared/ServerRequestsUrls';
-import {MenuItems} from '../shared/MenuItems';
-import {SongsInPlayer} from '../shared/Lists';
+import {Component, OnInit, OnDestroy, Input, ViewChild, ElementRef} from '@angular/core';
+import {SongItem} from '../../shared/SongItem';
+import {SongsHttpService, SongsEventsService, SongsViewService} from '../../shared/songs/songs.services';
+import {ServerRequestsUrls} from '../../shared/ServerRequestsUrls';
+import {MenuItems} from '../../shared/MenuItems';
+import {SongsInPlayer} from '../../shared/Lists';
 import {Subscription} from 'rxjs/Subscription';
-import {PlaylistsHttpService} from '../playlists/playlists.service';
-import {MenuEventService} from '../menu/menu.service';
-import {SongsArrayUtil} from '../shared/SongsArrayUtil';
+import {PlaylistsHttpService} from '../../playlists/playlists.service';
+import {MenuEventService} from '../../menu/menu.service';
+import {SongsArrayUtil} from '../../shared/SongsArrayUtil';
 
 @Component({
-  selector: 'app-music-novelties',
-  templateUrl: '../shared/songs/songs.html',
-  styleUrls: ['../shared/songs/songs.styles.css'],
+  selector: 'app-music-playlist-songs',
+  templateUrl: './playlistSongs.html',
+  styleUrls: ['./playlistSongs.styles.css', '../../shared/songs/songs.styles.css'],
   providers: [SongsHttpService, PlaylistsHttpService, MenuEventService]
 })
 
-export class NoveltiesComponent implements OnInit, OnDestroy {
+export class PlaylistSongsComponent implements OnInit, OnDestroy {
   songItems: SongItem[] = [];
   serverRequestsUrls = ServerRequestsUrls;
-  title = MenuItems.novelties.name;
+
+  @ViewChild('content')
+  content: ElementRef;
+
   observer: MutationObserver;
+  playerObserver: MutationObserver;
   loaded = false;
   subscription: Subscription;
   markedSongs: SongItem[] = [];
+  id = Math.random().toString(36).substr(2, 9);
 
   constructor(private httpService: SongsHttpService, private eventsService: SongsEventsService,
               private viewService: SongsViewService, private playlistsHttpService: PlaylistsHttpService,
@@ -43,7 +48,7 @@ export class NoveltiesComponent implements OnInit, OnDestroy {
 
   check() {
     if (this.songItems.length) {
-      this.viewService.checkAdded(this.songItems);
+      this.viewService.checkAddedInPlaylist(this.id, this.songItems);
       this.markedSongs = SongsArrayUtil.getCommonArray(this.songItems, SongsInPlayer.list);
     }
   }
@@ -85,14 +90,23 @@ export class NoveltiesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.content.nativeElement.id = this.id;
     const element = this;
-    const elRef = document.getElementById('songs-container');
+    const elRef = this.content.nativeElement;
     this.observer = new MutationObserver(mutations => {
         element.check();
       }
     );
     const config = {attributes: true, childList: true, characterData: true};
     this.observer.observe(elRef, config);
+
+    const player = document.getElementById('playlist');
+    this.playerObserver = new MutationObserver(mutations => {
+        element.check();
+      }
+    );
+    const playerConfig = {attributes: true, childList: true, characterData: true};
+    this.playerObserver.observe(player, playerConfig);
 
     this.songItems = this.httpService.getData('../assets/novelties.json');
     this.subscription = this.httpService.isSuccessStream.subscribe(value => {
