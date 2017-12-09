@@ -8,8 +8,8 @@ import {Subscription} from 'rxjs/Subscription';
 import {PlaylistsHttpService} from '../playlists/playlists.service';
 import {MenuEventService} from '../menu/menu.service';
 import {SongsArrayUtil} from '../shared/SongsArrayUtil';
+import {AppHttpService} from '../app.services';
 
-declare var System: any;
 
 @Component({
   selector: 'app-music-search',
@@ -22,7 +22,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   songItems: SongItem[] = [];
   serverRequestsUrls = ServerRequestsUrls;
   title = 'Найденные песни';
-  loaded = false;
+  loaded = true;
   subscription: Subscription;
   markedSongs: SongItem[] = [];
 
@@ -31,7 +31,8 @@ export class SearchComponent implements OnInit, OnDestroy {
               private httpService: SongsHttpService,
               private playlistsHttpService: PlaylistsHttpService,
               private cookieService: CookieService,
-              private menuEventService: MenuEventService) {
+              private menuEventService: MenuEventService,
+              private appHttpService: AppHttpService) {
   }
 
 
@@ -48,7 +49,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   check() {
     if (this.songItems) {
       this.viewService.checkAdded(this.songItems);
-      // this.markedSongs = SongsArrayUtil.getCommonArray(this.songItems, SongsInPlayer.list);
+      this.markedSongs = SongsArrayUtil.getCommonArray(this.songItems, SongsInPlayer.list);
     }
   }
 
@@ -61,15 +62,13 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   saveSongs() {
     if (this.markedSongs.length > 1) {
-      for (let i = 0; i < this.markedSongs.length; i++) {
-      }
-      // this.httpService.saveSongs(ServerRequestsUrls.DownloadSongs, this.markedSongs);
+      this.httpService.saveSongs(ServerRequestsUrls.DownloadSongs, this.markedSongs);
     }
   }
 
   addPlaylist(form: any) {
     if (form.value.text) {
-      this.playlistsHttpService.addPlaylist(ServerRequestsUrls.AddPlaylist, form.value.text, SongsInPlayer.list);
+      this.playlistsHttpService.addPlaylist(ServerRequestsUrls.AddPlaylist, form.value.text, this.markedSongs);
     }
   }
 
@@ -84,7 +83,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   cancelAll() {
-    this.eventsService.cancelAll(this.songItems);
+    this.eventsService.cancelAll(this.markedSongs);
     this.hideSavingForm();
     this.check();
     this.menuEventService.toggleButton(document.getElementById('markedSongsItem'), SongsInPlayer.list);
@@ -96,7 +95,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.loaded = false;
       const response = this.httpService.getData(ServerRequestsUrls.Search
         + name);
-      this.subscription = this.httpService.isSuccessStream.subscribe(value => {
+      this.httpService.isSuccessStream.subscribe(value => {
         if (value === true) {
           FindedSongs.list = response;
           this.songItems = response;
@@ -115,22 +114,16 @@ export class SearchComponent implements OnInit, OnDestroy {
     const element = this;
     const elRef = document.getElementById('songs-container');
     const observer = new MutationObserver(() => {
-        const temp = [];
-        for (let i = 0; i < FindedSongs.list.length; i++) {
-          temp.push(FindedSongs.list[i].id);
-        }
-        element.cookieService.putObject(FindedSongs.toString(), temp);
-        this.menuEventService.toggleButton(document.getElementById('findedSongsItem'), FindedSongs.list);
-        element.check();
-      }
-    );
+      element.check();
+    });
     const config = {attributes: true, childList: true, characterData: true};
     observer.observe(elRef, config);
+
     const el = this;
     document.getElementById('text').addEventListener('change', function () {
       el.getSongs();
     });
-    this.getSongs();
+    el.getSongs();
   }
 
   isEmpty(): boolean {

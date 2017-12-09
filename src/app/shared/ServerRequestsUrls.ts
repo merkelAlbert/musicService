@@ -1,5 +1,5 @@
 export class ServerRequestsUrls {
-  public static Url = 'http://192.168.1.6:8080/';
+  public static Url = 'http://128.75.155.55:8080/';
   public static Listen = ServerRequestsUrls.Url + 'getSong?isDownload=false&id=';
   public static Download = ServerRequestsUrls.Url + 'getSong?isDownload=true&id=';
   public static Novelties = ServerRequestsUrls.Url + 'getMetadataOfNewSongs';

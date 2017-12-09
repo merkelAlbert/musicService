@@ -22,6 +22,9 @@ export class AppHttpService {
   isSuccess = new Subject<boolean>();
   isSuccessStream = this.isSuccess.asObservable();
 
+  inPlayerLoaded = new Subject<boolean>();
+  inPlayerLoadedStream = this.inPlayerLoaded.asObservable();
+
   constructor(private http: HttpClient) {
   }
 
@@ -38,7 +41,7 @@ export class AppHttpService {
     }).subscribe((res: SongItem[]) => {
         if (res) {
           for (let i = 0; i < res.length; i++) {
-            result.push(new SongItem(res[i]['id'], res[i]['Artist'], res[i]['Title'], res[i]['Genre'],
+            result.unshift(new SongItem(res[i]['id'], res[i]['Artist'], res[i]['Title'], res[i]['Genre'],
               res[i]['Bitrate'], res[i]['Duration'], res[i]['Size'],
               new Date(Date.parse(res[i]['UploadDate'])), res[i]['CountOfDownload']));
           }

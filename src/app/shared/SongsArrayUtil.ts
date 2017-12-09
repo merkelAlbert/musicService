@@ -15,17 +15,24 @@ export class SongsArrayUtil {
     const tempSplice = array.splice(index, 1);
     const tempArr = [];
     for (let i = 0; i < array.length; i++) {
-      if (array[i].id !== tempSplice[0].id) {
-        tempArr.push(array[i]);
+      if (array[i].id) {
+        if (array[i].id !== tempSplice[0].id) {
+          tempArr.push(array[i]);
+        }
       }
     }
     array = tempArr;
   }
 
   public static getCommonArray(local: SongItem[], inPlayer: SongItem[]): SongItem[] {
-    const result = inPlayer.filter(function (el) {
-      return this.has(el);
-    }, new Set(local));
+    const result = [];
+    for (let i = 0; i < inPlayer.length; i++) {
+      for (let j = 0; j < local.length; j++) {
+        if (inPlayer[i].id === local[j].id) {
+          result.push(local[j]);
+        }
+      }
+    }
     return result;
   }
 

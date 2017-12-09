@@ -41,8 +41,12 @@ export class UploaderHttpService {
           this.isUploading.next(false);
         }
       },
-      res => {
-          ResponseHandler.handle(res.error);
+      err => {
+        if (err.status === 0) {
+          alert('Невозможно подключиться к серверу');
+        } else {
+          ResponseHandler.handle(err.error);
+        }
         this.isUploading.next(false);
       },
     );

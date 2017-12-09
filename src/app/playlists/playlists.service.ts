@@ -34,14 +34,18 @@ export class PlaylistsHttpService {
         alert('Плейлист успешно сохранен');
       },
       error => {
+        if (error.status === 0) {
+          alert('Невозможно подключиться к серверу');
+        } else {
+          ResponseHandler.handle(error.error);
+        }
         this.isSuccess.next(false);
-        ResponseHandler.handle(error.error);
       });
   }
 
   getPlaylists(url: string) {
     const playlists = [];
-    this.http.get(url).retry(5).subscribe((data: any[]) => {
+    this.http.get(url).subscribe((data: any[]) => {
         if (data) {
           for (let i = 0; i < data.length; i++) {
             playlists.push(new PlaylistItem(data[i]['id'], data[i]['Name'], data[i]['IDs']));
@@ -50,7 +54,11 @@ export class PlaylistsHttpService {
         this.isSuccess.next(true);
       },
       error => {
-        ResponseHandler.handle(error.error);
+        if (error.status === 0) {
+          alert('Невозможно подключиться к серверу');
+        } else {
+          ResponseHandler.handle(error.error);
+        }
         this.isSuccess.next(false);
       });
     return playlists;

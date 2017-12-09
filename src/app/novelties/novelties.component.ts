@@ -57,7 +57,6 @@ export class NoveltiesComponent implements OnInit, OnDestroy {
 
   saveSongs() {
     if (this.markedSongs.length > 1) {
-      console.log(this.markedSongs);
       this.httpService.saveSongs(ServerRequestsUrls.DownloadSongs, this.markedSongs);
     }
   }
@@ -74,12 +73,12 @@ export class NoveltiesComponent implements OnInit, OnDestroy {
 
   addPlaylist(form: any) {
     if (form.value.text) {
-      this.playlistsHttpService.addPlaylist(ServerRequestsUrls.AddPlaylist, form.value.text, SongsInPlayer.list);
+      this.playlistsHttpService.addPlaylist(ServerRequestsUrls.AddPlaylist, form.value.text, this.markedSongs);
     }
   }
 
   cancelAll() {
-    this.eventsService.cancelAll(this.songItems);
+    this.eventsService.cancelAll(this.markedSongs);
     this.hideSavingForm();
     this.check();
     this.menuEventService.toggleButton(document.getElementById('markedSongsItem'), SongsInPlayer.list);

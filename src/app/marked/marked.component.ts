@@ -6,8 +6,7 @@ import {SongsInPlayer} from '../shared/Lists';
 import {Subscription} from 'rxjs/Subscription';
 import {PlaylistsHttpService} from '../playlists/playlists.service';
 import {MenuEventService} from '../menu/menu.service';
-
-declare var System: any;
+import {AppHttpService} from '../app.services';
 
 @Component({
   selector: 'app-music-marked',
@@ -26,7 +25,8 @@ export class MarkedComponent implements OnInit, OnDestroy {
               private viewService: SongsViewService,
               private httpService: SongsHttpService,
               private playlistsHttpService: PlaylistsHttpService,
-              private menuEventService: MenuEventService) {
+              private menuEventService: MenuEventService,
+              private appHttpService: AppHttpService) {
   }
 
 
@@ -83,10 +83,17 @@ export class MarkedComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    const element = this;
-    for (let i = 0; i < SongsInPlayer.list.length; i++) {
-      this.songItems[i] = SongsInPlayer.list[i];
+    if (SongsInPlayer.list.length) {
+      this.songItems = SongsInPlayer.list;
     }
+    this.appHttpService.isSuccessStream.subscribe(value => {
+      if (value === true) {
+        for (let i = 0; i < SongsInPlayer.list.length; i++) {
+          this.songItems[i] = SongsInPlayer.list[i];
+        }
+      }
+    });
+    const element = this;
     const elRef = document.getElementById('songs-container');
     const observer = new MutationObserver(() => {
       element.check();

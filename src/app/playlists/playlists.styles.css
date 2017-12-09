@@ -10,3 +10,6 @@
 .playlist-container > * {
   margin-bottom: 30px;
 }
+.playlist-container div {
+  text-align: center;
+}

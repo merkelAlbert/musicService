@@ -6,6 +6,6 @@
       <input type="file" class="upload" name="file" id="file" #file/>
     </div>
     <mat-progress-bar *ngIf="isUploading()" mode="determinate" [value]="progress"></mat-progress-bar>
-    <input type="submit" class="submit-button material block" value="Загрузить"/>
+    <input type="submit" *ngIf="!isUploading()" class="submit-button material block" value="Загрузить"/>
   </form>
 </div>

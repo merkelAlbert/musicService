@@ -36,7 +36,11 @@ export class SongsHttpService {
         this.isSuccess.next(true);
       },
       error => {
-        ResponseHandler.handle(error);
+        if (error.status === 0) {
+          alert('Невозможно подключиться к серверу');
+        } else {
+          ResponseHandler.handle(error.error);
+        }
         this.isSuccess.next(false);
       });
     return songs;
@@ -73,9 +77,9 @@ export class SongsEventsService {
   static currentId = '';
   static timers = [];
   static audio = null;
+  static playerPaused = false;
   song = new Subject<SongItem>();
   songStream = this.song.asObservable();
-
 
   static clearTimers() {
     for (let i = 0; i < SongsEventsService.timers.length; i++) {
@@ -93,8 +97,9 @@ export class SongsEventsService {
       SongsEventsService.currentButton = null;
     }
     System.import('../player.script.js').then(script => {
-      if (script.isPlayed) {
+      if (SongsEventsService.playerPaused) {
         script.play();
+        SongsEventsService.playerPaused = false;
       }
     });
   }
@@ -134,7 +139,8 @@ export class SongsEventsService {
       SongsEventsService.currentId = song.id;
       SongsEventsService.currentButton = button;
       System.import('../player.script.js').then(script => {
-        if (script.isPlayed) {
+        if (script.isPlayed()) {
+          SongsEventsService.playerPaused = true;
           script.pause();
         }
       });

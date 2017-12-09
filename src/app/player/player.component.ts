@@ -48,8 +48,12 @@ export class PlayerComponent implements OnInit {
         SongsInPlayer.list.push(data);
       } else {
         const length = DeletedSongs.list.length;
+        const temp = [];
         for (let i = 0; i < length; i++) {
-          SongsArrayUtil.delete(SongsInPlayer.list, DeletedSongs.list[i]);
+          temp[i] = DeletedSongs.list[i];
+        }
+        for (let i = 0; i < length; i++) {
+          SongsArrayUtil.delete(SongsInPlayer.list, temp[i]);
         }
         DeletedSongs.list = [];
       }

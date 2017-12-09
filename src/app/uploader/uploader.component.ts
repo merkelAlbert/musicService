@@ -32,6 +32,7 @@ export class UploaderComponent implements AfterContentInit {
 
 
   ngAfterContentInit() {
+    const el = this;
     this.uploadingSubscription = this.httpService.isUploadingStream.subscribe(value => {
       if (value != null) {
         this.uploading = value;

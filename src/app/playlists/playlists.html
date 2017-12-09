@@ -1,7 +1,7 @@
 <div class="content-container material" id="playlists-container">
   <div class="playlist-container">
     <h1 class="page-title">{{title}}</h1>
-    <form class="text-button-form" id="playlist-search-form" #form="ngForm" (submit)="findPlaylists(form)">
+    <form class="text-button-form" id="playlist-search-form" #form="ngForm" (submit)="findPlaylists()">
       <input type="text" name="text" id="playlistText" class="text-of-form material block" ngModel>
       <button type="submit" class="submit material block">Найти</button>
     </form>

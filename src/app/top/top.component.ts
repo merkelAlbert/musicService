@@ -7,6 +7,7 @@ import {SongsInPlayer} from '../shared/Lists';
 import {Subscription} from 'rxjs/Subscription';
 import {PlaylistsHttpService} from '../playlists/playlists.service';
 import {MenuEventService} from '../menu/menu.service';
+import {SongsArrayUtil} from '../shared/SongsArrayUtil';
 
 @Component({
   selector: 'app-music-novelties',
@@ -22,6 +23,7 @@ export class TopComponent implements OnInit, OnDestroy {
   observer: MutationObserver;
   subscription: Subscription;
   loaded = false;
+  markedSongs: SongItem[] = [];
 
   constructor(private httpService: SongsHttpService, private eventsService: SongsEventsService,
               private viewService: SongsViewService, private playlistsHttpService: PlaylistsHttpService,
@@ -32,14 +34,16 @@ export class TopComponent implements OnInit, OnDestroy {
     if (!element.style.disabled) {
       this.eventsService.add(song);
       this.viewService.add(element);
+      this.markedSongs.push(song);
     }
     this.menuEventService.toggleButton(document.getElementById('markedSongsItem'), SongsInPlayer.list);
   }
 
 
   check() {
-    if (this.songItems) {
+    if (this.songItems.length) {
       this.viewService.checkAdded(this.songItems);
+      this.markedSongs = SongsArrayUtil.getCommonArray(this.songItems, SongsInPlayer.list);
     }
   }
 
@@ -51,14 +55,14 @@ export class TopComponent implements OnInit, OnDestroy {
   }
 
   saveSongs() {
-    if (SongsInPlayer.list.length > 1) {
-      this.httpService.saveSongs(ServerRequestsUrls.DownloadSongs, SongsInPlayer.list);
+    if (this.markedSongs.length > 1) {
+      this.httpService.saveSongs(ServerRequestsUrls.DownloadSongs, this.markedSongs);
     }
   }
 
   addPlaylist(form: any) {
     if (form.value.text) {
-      this.playlistsHttpService.addPlaylist(ServerRequestsUrls.AddPlaylist, form.value.text, SongsInPlayer.list);
+      this.playlistsHttpService.addPlaylist(ServerRequestsUrls.AddPlaylist, form.value.text, this.markedSongs);
     }
   }
 
@@ -76,7 +80,7 @@ export class TopComponent implements OnInit, OnDestroy {
     this.eventsService.cancelAll(this.songItems);
     this.hideSavingForm();
     this.check();
-    this.menuEventService.toggleButton(document.getElementById('markedSongsItem'), SongsInPlayer.list);
+    this.menuEventService.toggleButton(document.getElementById('markedSongsItem'), this.markedSongs);
   }
 
   ngOnInit() {
@@ -92,6 +96,7 @@ export class TopComponent implements OnInit, OnDestroy {
     this.songItems = this.httpService.getData(ServerRequestsUrls.Top);
     this.subscription = this.httpService.isSuccessStream.subscribe(value => {
       if (value != null) {
+        this.markedSongs = SongsArrayUtil.getCommonArray(this.songItems, SongsInPlayer.list);
         this.loaded = value;
       }
     });
