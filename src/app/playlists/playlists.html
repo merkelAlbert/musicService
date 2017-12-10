@@ -1,5 +1,5 @@
 <div class="content-container material" id="playlists-container">
-  <div class="playlist-container">
+  <div class="playlists-container">
     <h1 class="page-title">{{title}}</h1>
     <form class="text-button-form" id="playlist-search-form" #form="ngForm" (submit)="findPlaylists()">
       <input type="text" name="text" id="playlistText" class="text-of-form material block" ngModel>
@@ -12,7 +12,7 @@
       <!--<button class="material songs-button block" title="Удалить отмеченные" id="cancelAll"-->
       <!--(click)="cancelAll()"></button>-->
       <!--</div>-->
-      <div *ngFor="let item of playlists; let i=index;">
+      <div *ngFor="let item of playlists; let i=index;" class="playlist">
         <div class="music-item-container material"
              title="Нажмите, чтобы раскрыть/скрыть" (click)="showHideSongs(item.Id)">
           <div class="info-container">
@@ -20,12 +20,12 @@
               <p class="title">{{item.Title}}</p>
             </div>
             <div class="service-info">
-              <p class="service">fdfgdkflfdgldf</p>
+              <p class="service">Число композиций: {{item.Ids.length}}</p>
             </div>
           </div>
         </div>
         <div class="songs" id="{{item.Id}}">
-          <app-music-playlist-songs class="playlist-songs">
+          <app-music-playlist-songs class="playlist-songs" [ids]="item.Ids">
           </app-music-playlist-songs>
         </div>
       </div>

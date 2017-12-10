@@ -17,6 +17,7 @@ export class PlaylistsComponent implements OnInit {
   playlists: PlaylistItem[] = [];
   loaded = false;
   subscription: Subscription;
+
   constructor(private playlistsHttpService: PlaylistsHttpService,
               private songsHttpService: SongsHttpService,
               private songsEventsService: SongsEventsService) {
@@ -71,9 +72,18 @@ export class PlaylistsComponent implements OnInit {
     //   el.getSongs();
     // });
     // this.getSongs();
+
+    this.playlists = this.playlistsHttpService.getPlaylists(ServerRequestsUrls.GetPlaylists);
+    this.subscription = this.playlistsHttpService.isSuccessStream.subscribe(value => {
+      if (value === true) {
+        this.loaded = value;
+      } else {
+        this.playlists = [];
+        this.loaded = true;
+      }
+    });
     document.getElementById('playlistText').addEventListener('change', function () {
       el.findPlaylists();
     });
-    this.findPlaylists();
   }
 }

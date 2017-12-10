@@ -45,12 +45,11 @@ export class PlaylistsHttpService {
 
   getPlaylists(url: string) {
     const playlists = [];
-    this.http.get('../assets/playlist.json').subscribe((data: any[]) => {
+    this.http.get(url).subscribe((data: PlaylistItem[]) => {
         if (data) {
           for (let i = 0; i < data.length; i++) {
             playlists.push(new PlaylistItem(data[i]['id'], data[i]['Name'], data[i]['IDs']));
           }
-          console.log(playlists);
         }
         this.isSuccess.next(true);
       },

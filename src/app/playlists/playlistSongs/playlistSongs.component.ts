@@ -8,6 +8,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {PlaylistsHttpService} from '../../playlists/playlists.service';
 import {MenuEventService} from '../../menu/menu.service';
 import {SongsArrayUtil} from '../../shared/SongsArrayUtil';
+import {AppHttpService} from "../../app.services";
 
 @Component({
   selector: 'app-music-playlist-songs',
@@ -23,6 +24,11 @@ export class PlaylistSongsComponent implements OnInit, OnDestroy {
   @ViewChild('content')
   content: ElementRef;
 
+  @ViewChild('addPlaylistForm')
+  addPlaylistForm: ElementRef;
+
+  @Input() ids: string[];
+
   observer: MutationObserver;
   playerObserver: MutationObserver;
   loaded = false;
@@ -30,9 +36,10 @@ export class PlaylistSongsComponent implements OnInit, OnDestroy {
   markedSongs: SongItem[] = [];
   id = Math.random().toString(36).substr(2, 9);
 
-  constructor(private httpService: SongsHttpService, private eventsService: SongsEventsService,
+  constructor(private songsHttpService: SongsHttpService, private eventsService: SongsEventsService,
               private viewService: SongsViewService, private playlistsHttpService: PlaylistsHttpService,
-              private menuEventService: MenuEventService) {
+              private menuEventService: MenuEventService,
+              private appHttpService: AppHttpService) {
   }
 
 
@@ -62,18 +69,18 @@ export class PlaylistSongsComponent implements OnInit, OnDestroy {
 
   saveSongs() {
     if (this.markedSongs.length > 1) {
-      this.httpService.saveSongs(ServerRequestsUrls.DownloadSongs, this.markedSongs);
+      this.songsHttpService.saveSongs(ServerRequestsUrls.DownloadSongs, this.markedSongs);
     }
   }
 
   showSavingForm() {
     if (SongsInPlayer.list.length > 1) {
-      document.getElementById('addPlaylistForm').style.display = 'flex';
+      this.addPlaylistForm.nativeElement.style.display = 'flex';
     }
   }
 
   hideSavingForm() {
-    document.getElementById('addPlaylistForm').style.display = 'none';
+    this.addPlaylistForm.nativeElement.style.display = 'none';
   }
 
   addPlaylist(form: any) {
@@ -108,8 +115,8 @@ export class PlaylistSongsComponent implements OnInit, OnDestroy {
     const playerConfig = {attributes: true, childList: true, characterData: true};
     this.playerObserver.observe(player, playerConfig);
 
-    this.songItems = this.httpService.getData('../assets/novelties.json');
-    this.subscription = this.httpService.isSuccessStream.subscribe(value => {
+    this.songItems = this.appHttpService.getSongsByIds(ServerRequestsUrls.SongsByIds, this.ids);
+    this.subscription = this.appHttpService.isSuccessStream.subscribe(value => {
       if (value != null) {
         this.markedSongs = SongsArrayUtil.getCommonArray(this.songItems, SongsInPlayer.list);
         this.loaded = value;

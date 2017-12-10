@@ -1,5 +1,5 @@
 export class ServerRequestsUrls {
-  public static Url = 'http://128.75.155.55:8080/';
+  public static Url = './';
   public static Listen = ServerRequestsUrls.Url + 'getSong?isDownload=false&id=';
   public static Download = ServerRequestsUrls.Url + 'getSong?isDownload=true&id=';
   public static Novelties = ServerRequestsUrls.Url + 'getMetadataOfNewSongs';
@@ -10,4 +10,5 @@ export class ServerRequestsUrls {
   public static AddPlaylist = ServerRequestsUrls.Url + 'addPlaylist';
   public static DownloadSongs = ServerRequestsUrls.Url + 'getSongsInZip';
   public static SongsByIds = ServerRequestsUrls.Url + 'getMetadataOfSongsbyIDs';
+  public static GetPlaylists = ServerRequestsUrls.Url + 'getPlaylists';
 }

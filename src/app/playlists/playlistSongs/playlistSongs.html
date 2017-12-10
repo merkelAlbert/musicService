@@ -1,6 +1,5 @@
 <div class="content-container" id="{{id}}" #content>
   <div *ngIf="isLoaded() && !isEmpty();" class="music-content">
-    <audio id="preListen"></audio>
     <h1 class="page-title">{{title}}</h1>
     <div class="buttons">
       <button class="songs-button" title="Добавить все в плеер/плейлист" id="selectAll" (click)="selectAll()"></button>
@@ -11,7 +10,7 @@
       <button class="songs-button" title="Удалить отмеченные из плеера/плейлиста" id="cancelAll"
               (click)="cancelAll()"></button>
     </div>
-    <form class="text-button-form" id="addPlaylistForm" #form="ngForm" (submit)="addPlaylist(form)">
+    <form class="text-button-form" id="addPlaylistForm" #form="ngForm" (submit)="addPlaylist(form)" #addPlaylistForm>
       <input type="text" name="text" placeholder="Введите название плейлиста" id="text" class="text-of-form material block" ngModel>
       <button type="submit" class="submit material block">Сохранить
       </button>

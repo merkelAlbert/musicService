@@ -94,7 +94,7 @@ export class NoveltiesComponent implements OnInit, OnDestroy {
     const config = {attributes: true, childList: true, characterData: true};
     this.observer.observe(elRef, config);
 
-    this.songItems = this.httpService.getData('../assets/novelties.json');
+    this.songItems = this.httpService.getData(ServerRequestsUrls.Novelties);
     this.subscription = this.httpService.isSuccessStream.subscribe(value => {
       if (value != null) {
         this.markedSongs = SongsArrayUtil.getCommonArray(this.songItems, SongsInPlayer.list);
