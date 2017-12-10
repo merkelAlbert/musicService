@@ -42,7 +42,7 @@ export class UploaderHttpService {
         }
       },
       err => {
-        if (err.status === 0) {
+        if (err.status === 0 || err.status === 404) {
           alert('Невозможно подключиться к серверу');
         } else {
           ResponseHandler.handle(err.error);

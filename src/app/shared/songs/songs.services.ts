@@ -36,7 +36,8 @@ export class SongsHttpService {
         this.isSuccess.next(true);
       },
       error => {
-        if (error.status === 0) {
+      console.log(error);
+        if (error.status === 0 || error.status === 404) {
           alert('Невозможно подключиться к серверу');
         } else {
           ResponseHandler.handle(error.error);

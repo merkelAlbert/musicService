@@ -17,7 +17,7 @@ import {AppHttpService} from '../app.services';
 export class MarkedComponent implements OnInit, OnDestroy {
   songItems: SongItem[] = [];
   serverRequestsUrls = ServerRequestsUrls;
-  title = 'Выделенные песни';
+  title = 'Выбранные песни';
   loaded = true;
   subscription: Subscription;
 

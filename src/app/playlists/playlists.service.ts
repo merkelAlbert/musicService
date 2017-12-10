@@ -34,7 +34,7 @@ export class PlaylistsHttpService {
         alert('Плейлист успешно сохранен');
       },
       error => {
-        if (error.status === 0) {
+        if (error.status === 0 || error.status === 404) {
           alert('Невозможно подключиться к серверу');
         } else {
           ResponseHandler.handle(error.error);
@@ -54,7 +54,7 @@ export class PlaylistsHttpService {
         this.isSuccess.next(true);
       },
       error => {
-        if (error.status === 0) {
+        if (error.status === 0 || error.status === 404) {
           alert('Невозможно подключиться к серверу');
         } else {
           ResponseHandler.handle(error.error);

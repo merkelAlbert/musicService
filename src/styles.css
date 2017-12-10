@@ -52,9 +52,12 @@ html, body {
   width: 960px;
 }
 
-
 .page-title {
   color: #0f78a9;
+  margin: auto;
+  padding: 5px 10px;
+  padding-left: 0;
+  width: 90%;
 }
 
 .text-button-form {
@@ -91,7 +94,7 @@ html, body {
   margin: 10px auto;
   display: flex;
   height:32px;
-  padding: 5px 10px;
+  padding: 5px 0;
   justify-content: space-between;
   width: 90%;
 }

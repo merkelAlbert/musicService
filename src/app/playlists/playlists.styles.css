@@ -4,7 +4,7 @@
 
 .text-button-form {
   width: 40%;
-  margin: 0;
+  margin-left: 5px;
 }
 
 .playlists-container > * {
@@ -32,7 +32,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  margin:0;
+  margin: 0;
 }
 
 .service-info {
@@ -65,10 +65,13 @@
 
 .songs {
   display: none;
-  margin-bottom: 150px;
+  margin-bottom: 10px;
 }
 
 .music-item-container {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
+.loading-image{
+ text-align: center;
+}
